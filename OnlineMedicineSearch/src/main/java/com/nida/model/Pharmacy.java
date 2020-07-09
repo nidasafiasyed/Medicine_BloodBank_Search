@@ -13,7 +13,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name="Pharmacies")
-public class PharmacyModel {
+public class Pharmacy {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -25,13 +25,13 @@ public class PharmacyModel {
 	private boolean delivery;
 	
 	@ManyToMany(cascade = CascadeType.ALL, mappedBy = "Pharmacies")
-	List<MedicineModel> medicines;
+	List<Medicine> medicines;
 	
 	public int getPharmaId() {
 		return pharmaId;
 	}
 	
-	public PharmacyModel() {
+	public Pharmacy() {
 		address.putIfAbsent("street", "");
 		address.putIfAbsent("city", "");
 		address.putIfAbsent("state", "");
@@ -71,11 +71,11 @@ public class PharmacyModel {
 		this.delivery = delivery;
 	}
 
-	public List<MedicineModel> getMedicines() {
+	public List<Medicine> getMedicines() {
 		return medicines;
 	}
 
-	public void setMedicines(List<MedicineModel> medicines) {
+	public void setMedicines(List<Medicine> medicines) {
 		this.medicines = medicines;
 	}
 

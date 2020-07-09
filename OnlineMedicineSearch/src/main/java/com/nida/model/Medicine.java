@@ -16,7 +16,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name="Medicines")
-public class MedicineModel {
+public class Medicine {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int medId;
@@ -29,7 +29,7 @@ public class MedicineModel {
 	@ManyToMany(cascade = CascadeType.ALL)
 	@JoinTable(name="Medicines&Pharmacies", joinColumns = {@JoinColumn(name="medId")},
 	inverseJoinColumns = {@JoinColumn(name="pharmaId")})
-	private List<PharmacyModel> pharmacies;
+	private List<Pharmacy> pharmacies;
 	
 	public String getName() {
 		return name;
@@ -63,11 +63,11 @@ public class MedicineModel {
 		this.sideEffects = sideEffects;
 	}
 	
-	public List<PharmacyModel> getPharmacies() {
+	public List<Pharmacy> getPharmacies() {
 		return pharmacies;
 	}
 	
-	public void setPharmacies(List<PharmacyModel> pharmacies) {
+	public void setPharmacies(List<Pharmacy> pharmacies) {
 		this.pharmacies = pharmacies;
 	}
 

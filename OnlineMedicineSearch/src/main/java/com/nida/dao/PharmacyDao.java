@@ -5,12 +5,12 @@ import com.nida.model.*;
 
 public interface PharmacyDao {
 	
-	 List<PharmacyModel> findAll();
-	 List<PharmacyModel> findById();
-	 List<PharmacyModel> findByName();
-	 void insertEmployee(PharmacyModel pharmacy);
-	 void updateEmployee(PharmacyModel pharmacy);
-	 void deleteEmployee(PharmacyModel pharmacy);
+	 List<Pharmacy> findAll();
+	 List<Pharmacy> findById();
+	 List<Pharmacy> findByName();
+	 void insertEmployee(Pharmacy pharmacy);
+	 void updateEmployee(Pharmacy pharmacy);
+	 void deleteEmployee(Pharmacy pharmacy);
 
 
 }

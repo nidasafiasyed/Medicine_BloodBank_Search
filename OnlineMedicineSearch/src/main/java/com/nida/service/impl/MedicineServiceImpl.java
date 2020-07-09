@@ -7,8 +7,8 @@ import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.nida.model.MedicineModel;
-import com.nida.model.PharmacyModel;
+import com.nida.model.Medicine;
+import com.nida.model.Pharmacy;
 import com.nida.repo.MedicineRepo;
 import com.nida.repo.PharmacyRepo;
 import com.nida.service.MedicineService;
@@ -17,21 +17,21 @@ import com.nida.service.MedicineService;
 public class MedicineServiceImpl implements MedicineService {
 	
 	@Autowired
-	MedicineRepo medRepo;
+	private MedicineRepo medRepo;
 	
 	@Autowired
-	PharmacyRepo pharmaRepo;
+	private PharmacyRepo pharmaRepo;
 
 	@Override
-	public List<MedicineModel> findAll() {
+	public List<Medicine> findAll() {
 		// TODO Auto-generated method stub
 		return medRepo.findAll();
 	}
 
 	@Override
-	public MedicineModel findById(int medId) {
+	public Medicine findById(int medId) {
 		// TODO Auto-generated method stub
-		 Optional<MedicineModel> med = medRepo.findById(medId);
+		 Optional<Medicine> med = medRepo.findById(medId);
 	     if(med.isPresent()) {
 	    	 return med.get();
 	     }
@@ -39,13 +39,13 @@ public class MedicineServiceImpl implements MedicineService {
 	}
 
 	@Override
-	public List<MedicineModel> findByName(String medName) {
+	public List<Medicine> findByName(String medName) {
 		// TODO Auto-generated method stub
 		return medRepo.findAll();
 	}
 
 	@Override
-	public void insertMedicine(MedicineModel medicine) {
+	public void insertMedicine(Medicine medicine) {
 		// TODO Auto-generated method stub
 		medRepo.save(medicine);
 		System.out.println("New medicine added!");
@@ -54,14 +54,14 @@ public class MedicineServiceImpl implements MedicineService {
 	@Override
 	public void updateMedicine(int medId) {
 		// TODO Auto-generated method stub
-		   Optional<MedicineModel> med = medRepo.findById(medId);
+		   Optional<Medicine> med = medRepo.findById(medId);
 		   	   
 		   if(med==null) {
 		    	System.out.println("Medicine not found");
 		    }
 
 		    if(med.isPresent()) {
-		    MedicineModel medicine = med.get();
+		    Medicine medicine = med.get();
 		    
 		    Set<String> newIngredients = medicine.getIngredients();
 		    newIngredients.add("ingredients111");
@@ -75,9 +75,9 @@ public class MedicineServiceImpl implements MedicineService {
 		    medicine.setSideEffects(newSideEffects);
 		    
 		    //append pharmacy
-		    List<PharmacyModel> pharmacies = medicine.getPharmacies();
+		    List<Pharmacy> pharmacies = medicine.getPharmacies();
 		    
-		    Optional<PharmacyModel> pharma = pharmaRepo.findById(101);//dummy
+		    Optional<Pharmacy> pharma = pharmaRepo.findById(101);//dummy
 		     if(pharma.isPresent()) {
 		    	 pharmacies.add(pharma.get());
 		     }

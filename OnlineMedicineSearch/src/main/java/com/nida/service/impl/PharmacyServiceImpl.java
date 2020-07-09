@@ -6,8 +6,8 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.nida.model.MedicineModel;
-import com.nida.model.PharmacyModel;
+import com.nida.model.Medicine;
+import com.nida.model.Pharmacy;
 import com.nida.repo.MedicineRepo;
 import com.nida.repo.PharmacyRepo;
 import com.nida.service.PharmacyService;
@@ -16,21 +16,21 @@ import com.nida.service.PharmacyService;
 public class PharmacyServiceImpl implements PharmacyService {
 	
 	@Autowired
-	PharmacyRepo pharmaRepo;
+	private PharmacyRepo pharmaRepo;
 	
 	@Autowired
-	MedicineRepo medRepo;
+	private MedicineRepo medRepo;
 
 	@Override
-	public List<PharmacyModel> findAll() {
+	public List<Pharmacy> findAll() {
 		// TODO Auto-generated method stub
 		return pharmaRepo.findAll();
 	}
 
 	@Override
-	public PharmacyModel findById(int pharmaId) {
+	public Pharmacy findById(int pharmaId) {
 		// TODO Auto-generated method stub
-		Optional<PharmacyModel> pharma = pharmaRepo.findById(pharmaId);
+		Optional<Pharmacy> pharma = pharmaRepo.findById(pharmaId);
 	     if(pharma.isPresent()) {
 	    	 return pharma.get();
 	     }
@@ -38,19 +38,19 @@ public class PharmacyServiceImpl implements PharmacyService {
 	}
 	
 	@Override
-	public List<PharmacyModel> findByName(String name) {
+	public List<Pharmacy> findByName(String name) {
 		// TODO Auto-generated method stub
 		return pharmaRepo.findAll();
 	}
 
 	@Override
-	public List<PharmacyModel> findByAddress(String zipcode) {
+	public List<Pharmacy> findByAddress(String zipcode) {
 		// TODO Auto-generated method stub
 		return pharmaRepo.findAll();
 	}
 
 	@Override
-	public void insertPharmacy(PharmacyModel pharmacy) {
+	public void insertPharmacy(Pharmacy pharmacy) {
 		// TODO Auto-generated method stub
 		pharmaRepo.save(pharmacy);
 		System.out.println("New pharmacy added!");
@@ -60,14 +60,14 @@ public class PharmacyServiceImpl implements PharmacyService {
 	public void updatePharmacy(int pharmaId) {
 		// TODO Auto-generated method stub
 		
-		 Optional<PharmacyModel> pharma = pharmaRepo.findById(pharmaId);
+		 Optional<Pharmacy> pharma = pharmaRepo.findById(pharmaId);
 	   	   
 		   if(pharma==null) {
 		    	System.out.println("Medicine not found");
 		    }
 
 		    if(pharma.isPresent()) {
-		    PharmacyModel pharmacy = pharma.get();
+		    Pharmacy pharmacy = pharma.get();
 		    
 		    pharmacy.setName("new name");
 		    pharmacy.setDelivery(false);
@@ -77,9 +77,9 @@ public class PharmacyServiceImpl implements PharmacyService {
 		    newAddress.put("street", "new street");
 		    pharmacy.setAddress(newAddress);
 		    
-		    List<MedicineModel> medicines = pharmacy.getMedicines();
+		    List<Medicine> medicines = pharmacy.getMedicines();
 		    
-		    Optional<MedicineModel> med = medRepo.findById(101);//dummy
+		    Optional<Medicine> med = medRepo.findById(101);//dummy
 		     if(med.isPresent()) {
 		    	 medicines.add(med.get());
 		     }

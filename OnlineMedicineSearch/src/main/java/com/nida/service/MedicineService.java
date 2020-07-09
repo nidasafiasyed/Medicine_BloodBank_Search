@@ -2,14 +2,14 @@ package com.nida.service;
 
 import java.util.List;
 
-import com.nida.model.MedicineModel;
+import com.nida.model.Medicine;
 
 public interface MedicineService {
 	
-	 List<MedicineModel> findAll();
-	 MedicineModel findById(int id);
-	 List<MedicineModel> findByName(String name);
-	 void insertMedicine(MedicineModel medicine);
+	 List<Medicine> findAll();
+	 Medicine findById(int id);
+	 List<Medicine> findByName(String name);
+	 void insertMedicine(Medicine medicine);
 	 void updateMedicine(int id);
 	 void deleteMedicine(int id);
 
