@@ -1,6 +1,7 @@
 package com.nida.model;
 
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -22,8 +23,8 @@ public class MedicineModel {
 	
 	private String name;
 	private Double mg;
-	private List<String> ingredients;
-	private List<String> sideEffects;
+	private Set<String> ingredients;
+	private Set<String> sideEffects;
 	
 	@ManyToMany(cascade = CascadeType.ALL)
 	@JoinTable(name="Medicines&Pharmacies", joinColumns = {@JoinColumn(name="medId")},
@@ -46,19 +47,19 @@ public class MedicineModel {
 		this.mg = mg;
 	}
 	
-	public List<String> getIngredients() {
+	public Set<String> getIngredients() {
 		return ingredients;
 	}
 	
-	public void setIngredients(List<String> ingredients) {
+	public void setIngredients(Set<String> ingredients) {
 		this.ingredients = ingredients;
 	}
 	
-	public List<String> getSideEffects() {
+	public Set<String> getSideEffects() {
 		return sideEffects;
 	}
 	
-	public void setSideEffects(List<String> sideEffects) {
+	public void setSideEffects(Set<String> sideEffects) {
 		this.sideEffects = sideEffects;
 	}
 	

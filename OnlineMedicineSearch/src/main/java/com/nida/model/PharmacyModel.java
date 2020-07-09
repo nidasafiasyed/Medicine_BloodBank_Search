@@ -1,9 +1,14 @@
 package com.nida.model;
 
+import java.util.LinkedHashMap;
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -15,15 +20,25 @@ public class PharmacyModel {
 	private int pharmaId;
 	
 	private String name;
-	private String address;
+	LinkedHashMap<String,String> address;
 	private boolean is24hrs;
 	private boolean delivery;
+	
+	@ManyToMany(cascade = CascadeType.ALL, mappedBy = "Pharmacies")
+	List<MedicineModel> medicines;
 	
 	public int getPharmaId() {
 		return pharmaId;
 	}
 	
-	//only get()
+	public PharmacyModel() {
+		address.putIfAbsent("street", "");
+		address.putIfAbsent("city", "");
+		address.putIfAbsent("state", "");
+		address.putIfAbsent("zip", "");
+	}
+	
+
 	public String getName() {
 		return name;
 	}
@@ -32,11 +47,11 @@ public class PharmacyModel {
 		this.name = name;
 	}
 	
-	public String getAddress() {
+	public LinkedHashMap<String, String> getAddress() {
 		return address;
 	}
 	
-	public void setAddress(String address) {
+	public void setAddress(LinkedHashMap<String, String> address) {
 		this.address = address;
 	}
 	
@@ -55,6 +70,21 @@ public class PharmacyModel {
 	public void setDelivery(boolean delivery) {
 		this.delivery = delivery;
 	}
+
+	public List<MedicineModel> getMedicines() {
+		return medicines;
+	}
+
+	public void setMedicines(List<MedicineModel> medicines) {
+		this.medicines = medicines;
+	}
+
+	@Override
+	public String toString() {
+		return "PharmacyModel [pharmaId=" + pharmaId + ", name=" + name + ", address=" + address + ", is24hrs="
+				+ is24hrs + ", delivery=" + delivery + ", medicines=" + medicines + "]";
+	}
+	
 	
 
 }
