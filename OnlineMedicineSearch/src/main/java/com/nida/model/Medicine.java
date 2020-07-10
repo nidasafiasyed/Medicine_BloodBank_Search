@@ -1,9 +1,13 @@
 package com.nida.model;
 
-import java.util.List;
+import java.io.Serializable;
+import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -15,21 +19,31 @@ import javax.persistence.Table;
 
 
 @Entity
-@Table(name="Medicines")
-public class Medicine {
+@Table(name="medicines")
+public class Medicine implements Serializable{
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name = "medicine_id")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int medId;
 	
 	private String name;
-	private Double mg;
-	private Set<String> ingredients;
-	private Set<String> sideEffects;
 	
-	@ManyToMany(cascade = CascadeType.ALL)
-	@JoinTable(name="Medicines&Pharmacies", joinColumns = {@JoinColumn(name="medId")},
-	inverseJoinColumns = {@JoinColumn(name="pharmaId")})
-	private List<Pharmacy> pharmacies;
+	@Column(name="dosage")
+	private Double mg;
+	
+	@ElementCollection
+	private Set<String> ingredients = new LinkedHashSet<String>();
+	
+	@Column(name="side_effects")
+	@ElementCollection
+	private Set<String> sideEffects = new LinkedHashSet<String>();
+	
+	
+	  @ManyToMany(cascade = CascadeType.ALL)
+	  @JoinTable(name="medicines_pharmacies", joinColumns = {@JoinColumn(name="medicine_id")}, inverseJoinColumns =
+	  {@JoinColumn(name="pharmacy_id")}) 
+	  private Set <Pharmacy> pharmacies = new HashSet<>();
+	 
 	
 	public String getName() {
 		return name;
@@ -63,25 +77,36 @@ public class Medicine {
 		this.sideEffects = sideEffects;
 	}
 	
-	public List<Pharmacy> getPharmacies() {
-		return pharmacies;
-	}
 	
-	public void setPharmacies(List<Pharmacy> pharmacies) {
-		this.pharmacies = pharmacies;
+	  public Set<Pharmacy> getPharmacies() { 
+		  return pharmacies; 
 	}
-
-	//auto setting medid so only get()
+	 
+	  public void setPharmacies(Set<Pharmacy> pharmacies) { 
+		  this.pharmacies = pharmacies; 
+		  }
+	 
 	public int getMedId() {
 		return medId;
 	}
 
-	@Override
-	public String toString() {
-		return "MedicineModel [medId=" + medId + ", name=" + name + ", mg=" + mg + ", ingredients=" + ingredients
-				+ ", sideEffects=" + sideEffects + ", pharmacies=" + pharmacies + "]";
+	public void setMedId(int medId) {
+		this.medId = medId;
+	}
+
+	public Medicine() {
+		super();
+	}
+
+	public Medicine(int medId, String name, Double mg, Set<String> ingredients, Set<String> sideEffects) {
+		super();
+		this.medId = medId;
+		this.name = name;
+		this.mg = mg;
+		this.ingredients = ingredients;
+		this.sideEffects = sideEffects;
 	}
 	
-
+    
 
 }

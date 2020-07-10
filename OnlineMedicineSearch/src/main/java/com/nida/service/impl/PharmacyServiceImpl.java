@@ -1,14 +1,14 @@
 package com.nida.service.impl;
 
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.nida.model.Medicine;
 import com.nida.model.Pharmacy;
-import com.nida.repo.MedicineRepo;
 import com.nida.repo.PharmacyRepo;
 import com.nida.service.PharmacyService;
 
@@ -16,87 +16,74 @@ import com.nida.service.PharmacyService;
 public class PharmacyServiceImpl implements PharmacyService {
 	
 	@Autowired
-	private PharmacyRepo pharmaRepo;
-	
-	@Autowired
-	private MedicineRepo medRepo;
+	private PharmacyRepo pharmacyRepo;
 
 	@Override
-	public List<Pharmacy> findAll() {
+	public List<Pharmacy> findAllPharmacies() {
 		// TODO Auto-generated method stub
-		return pharmaRepo.findAll();
+		return pharmacyRepo.findAll();
 	}
 
 	@Override
-	public Pharmacy findById(int pharmaId) {
+	public Pharmacy findPharmacyById(int pharmaId) {
 		// TODO Auto-generated method stub
-		Optional<Pharmacy> pharma = pharmaRepo.findById(pharmaId);
-	     if(pharma.isPresent()) {
-	    	 return pharma.get();
-	     }
-	     return null;
+		Optional<Pharmacy> pharmacy = pharmacyRepo.findById(pharmaId);
+		if(pharmacy.isPresent()) {
+			return pharmacy.get();
+		}
+		return null;
 	}
 	
 	@Override
 	public List<Pharmacy> findByName(String name) {
 		// TODO Auto-generated method stub
-		return pharmaRepo.findAll();
+		return pharmacyRepo.findAll();
 	}
 
 	@Override
 	public List<Pharmacy> findByAddress(String zipcode) {
 		// TODO Auto-generated method stub
-		return pharmaRepo.findAll();
+		return pharmacyRepo.findAll();
 	}
 
 	@Override
-	public void insertPharmacy(Pharmacy pharmacy) {
+	public Pharmacy insertPharmacy(Pharmacy pharmacy) {
 		// TODO Auto-generated method stub
-		pharmaRepo.save(pharmacy);
-		System.out.println("New pharmacy added!");
+		return pharmacyRepo.save(pharmacy);
 	}
 
 	@Override
-	public void updatePharmacy(int pharmaId) {
+	public Pharmacy updatePharmacy(int pharmaId, Pharmacy pharmacy) {
 		// TODO Auto-generated method stub
 		
-		 Optional<Pharmacy> pharma = pharmaRepo.findById(pharmaId);
-	   	   
-		   if(pharma==null) {
-		    	System.out.println("Medicine not found");
-		    }
-
-		    if(pharma.isPresent()) {
-		    Pharmacy pharmacy = pharma.get();
-		    
-		    pharmacy.setName("new name");
-		    pharmacy.setDelivery(false);
-		    pharmacy.setIs24hrs(true);
+		  Optional<Pharmacy> pharmaornull = pharmacyRepo.findById(pharmaId);
+		  if(pharmaornull.isPresent()) {
+			  Pharmacy pharma = pharmaornull.get();
+			  
+			  pharma.setPharmaId(pharmacy.getPharmaId());
+			  pharma.setName(pharmacy.getName());
+			  pharma.setAddress(pharmacy.getAddress());
+			  
+			  pharma.setDelivery(pharmacy.isDelivery());
+			  pharma.setIs24hrs(pharmacy.isIs24hrs());
+			  
+			  Set<Medicine> med = pharma.getMedicines();
+			  med.addAll(pharmacy.getMedicines());
+			  pharma.setMedicines(med);
+			  return pharmacyRepo.save(pharma);
+		  }
 		  
-		    LinkedHashMap<String, String> newAddress = pharmacy.getAddress();
-		    newAddress.put("street", "new street");
-		    pharmacy.setAddress(newAddress);
-		    
-		    List<Medicine> medicines = pharmacy.getMedicines();
-		    
-		    Optional<Medicine> med = medRepo.findById(101);//dummy
-		     if(med.isPresent()) {
-		    	 medicines.add(med.get());
-		     }
-		     
-		    pharmacy.setMedicines(medicines);
-		    
-		    pharmaRepo.save(pharmacy);
-		    
-		    System.out.println("Pharmacy updated");
-		     }
-
+		  return null;
 	}
 
 	@Override
 	public void deletePharmacy(int pharmaId) {
 		// TODO Auto-generated method stub
-		pharmaRepo.delete(pharmaRepo.findById(pharmaId).get());
+		Optional<Pharmacy> pharmacy = pharmacyRepo.findById(pharmaId);
+		if(pharmacy.isPresent()) {
+			pharmacyRepo.deleteById(pharmaId);
+		}
+
 
 	}
 

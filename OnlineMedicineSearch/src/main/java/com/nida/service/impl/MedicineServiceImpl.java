@@ -10,89 +10,77 @@ import org.springframework.stereotype.Service;
 import com.nida.model.Medicine;
 import com.nida.model.Pharmacy;
 import com.nida.repo.MedicineRepo;
-import com.nida.repo.PharmacyRepo;
 import com.nida.service.MedicineService;
 
 @Service
 public class MedicineServiceImpl implements MedicineService {
 	
 	@Autowired
-	private MedicineRepo medRepo;
-	
-	@Autowired
-	private PharmacyRepo pharmaRepo;
+	private MedicineRepo medicineRepo;
 
 	@Override
-	public List<Medicine> findAll() {
+	public List<Medicine> findAllMedicines() {
 		// TODO Auto-generated method stub
-		return medRepo.findAll();
+		return medicineRepo.findAll();
 	}
 
 	@Override
-	public Medicine findById(int medId) {
+	public Medicine findMedicineById(int medId) {
 		// TODO Auto-generated method stub
-		 Optional<Medicine> med = medRepo.findById(medId);
-	     if(med.isPresent()) {
-	    	 return med.get();
-	     }
-	     return null;
+		Optional<Medicine> medicine = medicineRepo.findById(medId);
+		if(medicine.isPresent()) {
+			return medicine.get();
+		}
+		return null;
 	}
 
 	@Override
 	public List<Medicine> findByName(String medName) {
 		// TODO Auto-generated method stub
-		return medRepo.findAll();
+		return medicineRepo.findAll();
 	}
 
 	@Override
-	public void insertMedicine(Medicine medicine) {
+	public Medicine insertMedicine(Medicine medicine) {
 		// TODO Auto-generated method stub
-		medRepo.save(medicine);
-		System.out.println("New medicine added!");
+		return medicineRepo.save(medicine);
 	}
 
 	@Override
-	public void updateMedicine(int medId) {
+	public Medicine updateMedicine(int medId, Medicine medicine) {
 		// TODO Auto-generated method stub
-		   Optional<Medicine> med = medRepo.findById(medId);
-		   	   
-		   if(med==null) {
-		    	System.out.println("Medicine not found");
-		    }
-
-		    if(med.isPresent()) {
-		    Medicine medicine = med.get();
-		    
-		    Set<String> newIngredients = medicine.getIngredients();
-		    newIngredients.add("ingredients111");
-		    medicine.setIngredients(newIngredients);
-		    
-		    medicine.setMg(12.99);
-		    medicine.setName("name2");
-		    
-		    Set<String> newSideEffects = medicine.getSideEffects();
-		    newSideEffects.add("sideeffects");
-		    medicine.setSideEffects(newSideEffects);
-		    
-		    //append pharmacy
-		    List<Pharmacy> pharmacies = medicine.getPharmacies();
-		    
-		    Optional<Pharmacy> pharma = pharmaRepo.findById(101);//dummy
-		     if(pharma.isPresent()) {
-		    	 pharmacies.add(pharma.get());
-		     }
-		     
-		    medicine.setPharmacies(pharmacies);
-		    medRepo.save(medicine);
-		    
-		    System.out.println("Medicine updated");
-		    }
+		Optional<Medicine> medornull = medicineRepo.findById(medId);
+		  if(medornull.isPresent()) {
+			  Medicine med = medornull.get();
+			  
+			  med.setMedId(medicine.getMedId());
+			  med.setName(medicine.getName());
+			  med.setMg(medicine.getMg());
+			  
+			  Set<String> ing = med.getIngredients();
+			  ing.addAll(medicine.getIngredients());
+			  med.setIngredients(ing);
+			  
+			  Set<String> se = med.getSideEffects();
+			  se.addAll(medicine.getSideEffects());
+			  med.setSideEffects(se);
+			  
+			  Set<Pharmacy> ph = med.getPharmacies();
+			  ph.addAll(medicine.getPharmacies());
+			  med.setPharmacies(ph);
+			  return medicineRepo.save(med);
+		  }
+		  
+		  return null;
 	}
 
 	@Override
 	public void deleteMedicine(int medId) {
 		// TODO Auto-generated method stub
-	    medRepo.delete(medRepo.findById(medId).get());
+		Optional<Medicine> medicine = medicineRepo.findById(medId);
+		if(medicine.isPresent()) {
+			medicineRepo.deleteById(medId);
+		}
 	}
 		
 }

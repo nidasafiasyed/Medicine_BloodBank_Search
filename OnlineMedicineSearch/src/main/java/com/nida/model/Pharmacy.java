@@ -1,9 +1,13 @@
 package com.nida.model;
 
+import java.io.Serializable;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
-import java.util.List;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -12,30 +16,37 @@ import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="Pharmacies")
-public class Pharmacy {
+@Table(name="pharmacies")
+public class Pharmacy implements Serializable{
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name = "pharmacy_id")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int pharmaId;
 	
 	private String name;
-	LinkedHashMap<String,String> address;
+	
+	private LinkedHashMap<String,String> address = new LinkedHashMap<String, String>();
+	
 	private boolean is24hrs;
+	
 	private boolean delivery;
 	
-	@ManyToMany(cascade = CascadeType.ALL, mappedBy = "Pharmacies")
-	List<Medicine> medicines;
+	
+	@ManyToMany(cascade = CascadeType.ALL, mappedBy = "pharmacies")
+	private Set<Medicine> medicines = new HashSet<>();
+	 
 	
 	public int getPharmaId() {
 		return pharmaId;
 	}
 	
+	public void setPharmaId(int pharmaId) {
+		this.pharmaId = pharmaId;
+	}
+
 	public Pharmacy() {
-		address.putIfAbsent("street", "");
-		address.putIfAbsent("city", "");
-		address.putIfAbsent("state", "");
-		address.putIfAbsent("zip", "");
+		super();
 	}
 	
 
@@ -52,6 +63,10 @@ public class Pharmacy {
 	}
 	
 	public void setAddress(LinkedHashMap<String, String> address) {
+		this.address.putIfAbsent("street", "");
+		this.address.putIfAbsent("city", "");
+		this.address.putIfAbsent("state", "");
+		this.address.putIfAbsent("zip", "");
 		this.address = address;
 	}
 	
@@ -71,20 +86,25 @@ public class Pharmacy {
 		this.delivery = delivery;
 	}
 
-	public List<Medicine> getMedicines() {
-		return medicines;
+	
+	 public Set<Medicine> getMedicines() { 
+		 return medicines; 
+	}
+	 
+	 public void setMedicines(Set<Medicine> medicines) { 
+		 this.medicines = medicines; 
 	}
 
-	public void setMedicines(List<Medicine> medicines) {
-		this.medicines = medicines;
+	public Pharmacy(int pharmaId, String name, LinkedHashMap<String, String> address, boolean is24hrs,
+			boolean delivery) {
+		super();
+		this.pharmaId = pharmaId;
+		this.name = name;
+		this.address = address;
+		this.is24hrs = is24hrs;
+		this.delivery = delivery;
 	}
-
-	@Override
-	public String toString() {
-		return "PharmacyModel [pharmaId=" + pharmaId + ", name=" + name + ", address=" + address + ", is24hrs="
-				+ is24hrs + ", delivery=" + delivery + ", medicines=" + medicines + "]";
-	}
-	
-	
+	 
+	 
 
 }

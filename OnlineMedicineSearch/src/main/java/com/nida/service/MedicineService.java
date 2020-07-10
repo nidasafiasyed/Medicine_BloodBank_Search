@@ -6,11 +6,11 @@ import com.nida.model.Medicine;
 
 public interface MedicineService {
 	
-	 List<Medicine> findAll();
-	 Medicine findById(int id);
+	 List<Medicine> findAllMedicines();
+	 Medicine findMedicineById(int id);
 	 List<Medicine> findByName(String name);
-	 void insertMedicine(Medicine medicine);
-	 void updateMedicine(int id);
+	 Medicine insertMedicine(Medicine medicine);
+	 Medicine updateMedicine(int id, Medicine med);
 	 void deleteMedicine(int id);
 
 }
