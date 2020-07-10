@@ -5,12 +5,7 @@ import com.nida.model.*;
 
 public interface MedicineDao {
 	
-	 List<Medicine> findAll();
-	 List<Medicine> findById();
-	 List<Medicine> findByName();
-	 void insertEmployee(Medicine medicine);
-	 void updateEmployee(Medicine medicine);
-	 void deleteEmployee(Medicine medicine);
+	 List<Medicine> findByName(String name);
 
 
 }
