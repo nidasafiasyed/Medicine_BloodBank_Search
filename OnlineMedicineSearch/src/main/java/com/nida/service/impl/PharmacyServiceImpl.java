@@ -33,18 +33,6 @@ public class PharmacyServiceImpl implements PharmacyService {
 		}
 		return null;
 	}
-	
-	@Override
-	public List<Pharmacy> findByName(String name) {
-		// TODO Auto-generated method stub
-		return pharmacyRepo.findAll();
-	}
-
-	@Override
-	public List<Pharmacy> findByAddress(String zipcode) {
-		// TODO Auto-generated method stub
-		return pharmacyRepo.findAll();
-	}
 
 	@Override
 	public Pharmacy insertPharmacy(Pharmacy pharmacy) {
@@ -60,17 +48,26 @@ public class PharmacyServiceImpl implements PharmacyService {
 		  if(pharmaornull.isPresent()) {
 			  Pharmacy pharma = pharmaornull.get();
 			  
-			  pharma.setPharmaId(pharmacy.getPharmaId());
-			  pharma.setName(pharmacy.getName());
-			  pharma.setAddress(pharmacy.getAddress());
+			  if(pharmacy.getName()!=null) {
+				  pharma.setName(pharmacy.getName());  
+			  }
 			  
+			  //need to define properly
+			  if(pharmacy.getAddress()!=null) {
+				 pharma.setAddress(pharmacy.getAddress());  
+			  }
+			  
+			  //how?
 			  pharma.setDelivery(pharmacy.isDelivery());
 			  pharma.setIs24hrs(pharmacy.isIs24hrs());
 			  
+			  
+			  if(!pharmacy.getMedicines().isEmpty()) {
 			  Set<Medicine> med = pharma.getMedicines();
 			  med.addAll(pharmacy.getMedicines());
 			  pharma.setMedicines(med);
 			  return pharmacyRepo.save(pharma);
+			  }
 		  }
 		  
 		  return null;

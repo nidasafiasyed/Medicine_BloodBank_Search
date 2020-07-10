@@ -34,11 +34,6 @@ public class MedicineServiceImpl implements MedicineService {
 		return null;
 	}
 
-	@Override
-	public List<Medicine> findByName(String medName) {
-		// TODO Auto-generated method stub
-		return medicineRepo.findAll();
-	}
 
 	@Override
 	public Medicine insertMedicine(Medicine medicine) {
@@ -53,21 +48,31 @@ public class MedicineServiceImpl implements MedicineService {
 		  if(medornull.isPresent()) {
 			  Medicine med = medornull.get();
 			  
-			  med.setMedId(medicine.getMedId());
-			  med.setName(medicine.getName());
-			  med.setMg(medicine.getMg());
+			   if(medicine.getName()!=null) {
+				   med.setName(medicine.getName());   
+			   }
+			   
+			   if(medicine.getMg()!=null) {
+				   med.setMg(medicine.getMg());   
+			   }
 			  
-			  Set<String> ing = med.getIngredients();
-			  ing.addAll(medicine.getIngredients());
-			  med.setIngredients(ing);
+			  if(!medicine.getIngredients().isEmpty()) {
+				  Set<String> ing = med.getIngredients();
+				  ing.addAll(medicine.getIngredients());
+				  med.setIngredients(ing);  
+			  }
 			  
-			  Set<String> se = med.getSideEffects();
-			  se.addAll(medicine.getSideEffects());
-			  med.setSideEffects(se);
+			  if(!medicine.getSideEffects().isEmpty()) {
+				  Set<String> se = med.getSideEffects();
+				  se.addAll(medicine.getSideEffects());
+				  med.setSideEffects(se);  
+			  }
 			  
+			  if(!medicine.getPharmacies().isEmpty()) {
 			  Set<Pharmacy> ph = med.getPharmacies();
 			  ph.addAll(medicine.getPharmacies());
-			  med.setPharmacies(ph);
+			  med.setPharmacies(ph); 
+			 }
 			  return medicineRepo.save(med);
 		  }
 		  
