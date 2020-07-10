@@ -53,7 +53,7 @@ public class PharmacyServiceImpl implements PharmacyService {
 			  }
 			  
 			  //need to define properly
-			  if(pharmacy.getAddress()!=null) {
+			  if(!pharmacy.getAddress().isEmpty()) {
 				 pharma.setAddress(pharmacy.getAddress());  
 			  }
 			  
