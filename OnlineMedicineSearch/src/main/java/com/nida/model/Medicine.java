@@ -98,15 +98,4 @@ public class Medicine implements Serializable{
 		super();
 	}
 
-	public Medicine(int medId, String name, Double mg, Set<String> ingredients, Set<String> sideEffects) {
-		super();
-		this.medId = medId;
-		this.name = name;
-		this.mg = mg;
-		this.ingredients = ingredients;
-		this.sideEffects = sideEffects;
-	}
-	
-    
-
 }

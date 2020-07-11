@@ -14,6 +14,7 @@ public interface PharmacyRepo extends JpaRepository<Pharmacy, Integer>{
 	@Query("SELECT p FROM Pharmacy p WHERE p.name LIKE %?1%")
 	List<Pharmacy> findByName(String name);
 	
+	//@Query("SELECT p FROM Pharmacy p WHERE p.name LIKE %?1%")
 	List<Pharmacy> findByAddress(String zip);
 
 }

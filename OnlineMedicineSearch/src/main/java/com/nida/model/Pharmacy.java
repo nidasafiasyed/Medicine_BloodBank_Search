@@ -47,6 +47,10 @@ public class Pharmacy implements Serializable{
 
 	public Pharmacy() {
 		super();
+		  this.address.putIfAbsent("street", "");
+		  this.address.putIfAbsent("city", "");
+		  this.address.putIfAbsent("state", "");
+		  this.address.putIfAbsent("zipcode", "");
 	}
 	
 
@@ -63,10 +67,6 @@ public class Pharmacy implements Serializable{
 	}
 	
 	public void setAddress(LinkedHashMap<String, String> address) {
-		this.address.putIfAbsent("street", "");
-		this.address.putIfAbsent("city", "");
-		this.address.putIfAbsent("state", "");
-		this.address.putIfAbsent("zip", "");
 		this.address = address;
 	}
 	
@@ -94,17 +94,6 @@ public class Pharmacy implements Serializable{
 	 public void setMedicines(Set<Medicine> medicines) { 
 		 this.medicines = medicines; 
 	}
-
-	public Pharmacy(int pharmaId, String name, LinkedHashMap<String, String> address, boolean is24hrs,
-			boolean delivery) {
-		super();
-		this.pharmaId = pharmaId;
-		this.name = name;
-		this.address = address;
-		this.is24hrs = is24hrs;
-		this.delivery = delivery;
-	}
-	 
 	 
 
 }
