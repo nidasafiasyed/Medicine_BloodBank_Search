@@ -36,10 +36,15 @@ public class PharmacyController {
 	  }
 	  
 	  
-	  @GetMapping("/getPharmacy/{id}")
+	  @GetMapping("/getPharmacyID/{id}")
 		public Pharmacy getPharmacyById(@PathVariable(value = "id") int pharmaId) {
 			return pharmacyService.findPharmacyById(pharmaId);
 		}
+	  
+	  @GetMapping("/getPharmacyName/{name}")
+	  public List<Pharmacy> getPharmacyByName(@PathVariable(value = "name") String pharmaName){
+		  return pharmacyService.findPharmacyByName(pharmaName);
+	  }
 	  
 	  @PutMapping("/updatePharmacy/{id}")
 	  public Pharmacy updatePharmacy(@PathVariable(value="id") int pharmaId, @Valid @RequestBody Pharmacy pharmacy) {
