@@ -8,6 +8,8 @@ public interface PharmacyService {
 	
 	 List<Pharmacy> findAllPharmacies();
 	 Pharmacy findPharmacyById(int id);
+	 List<Pharmacy> findPharmacyByName(String name);
+	 List<Pharmacy> findPharmacyByAddress(String zip);
 	 Pharmacy insertPharmacy(Pharmacy pharmacy);
 	 Pharmacy updatePharmacy(int id, Pharmacy ph);
 	 void deletePharmacy(int id);

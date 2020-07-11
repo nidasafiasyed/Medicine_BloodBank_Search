@@ -33,6 +33,19 @@ public class PharmacyServiceImpl implements PharmacyService {
 		}
 		return null;
 	}
+	
+	@Override
+	public List<Pharmacy> findPharmacyByName(String name) {
+		// TODO Auto-generated method stub
+		List<Pharmacy> pharmacies = pharmacyRepo.findByName(name);
+		return pharmacies;
+	}
+
+	@Override
+	public List<Pharmacy> findPharmacyByAddress(String zip) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 	@Override
 	public Pharmacy insertPharmacy(Pharmacy pharmacy) {
@@ -81,7 +94,8 @@ public class PharmacyServiceImpl implements PharmacyService {
 			pharmacyRepo.deleteById(pharmaId);
 		}
 
-
 	}
+
+	
 
 }

@@ -32,9 +32,14 @@ public class MedicineController {
 		return medicineService.findAllMedicines();
 	}
 	
-	@GetMapping("/getMedicine/{id}")
+	@GetMapping("/getMedicineID/{id}")
 	public Medicine getMedicineById(@PathVariable(value = "id") int medId) {
 		return medicineService.findMedicineById(medId);	
+	}
+	
+	@GetMapping("getMedicineName/{name}")
+	public List<Medicine> getMedicineByName(@PathVariable(value = "name") String medName){
+		return medicineService.findMedicineByName(medName);
 	}
 	
 	  @PostMapping("/addMedicine") 

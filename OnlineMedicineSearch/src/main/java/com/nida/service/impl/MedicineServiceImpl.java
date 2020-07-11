@@ -33,6 +33,13 @@ public class MedicineServiceImpl implements MedicineService {
 		}
 		return null;
 	}
+	
+	@Override
+	public List<Medicine> findMedicineByName(String name) {
+		// TODO Auto-generated method stub
+		List<Medicine> medicines = medicineRepo.findByName(name);
+		return medicines;
+	}
 
 
 	@Override
@@ -87,5 +94,7 @@ public class MedicineServiceImpl implements MedicineService {
 			medicineRepo.deleteById(medId);
 		}
 	}
+
+	
 		
 }
