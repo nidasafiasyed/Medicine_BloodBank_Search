@@ -89,6 +89,12 @@ public class MedicineServiceImpl implements MedicineService {
 		}
 	}
 
+	@Override
+	public List<Medicine> findMedicineByName(String name) {
+		// TODO Auto-generated method stub
+		return medicineRepo.findByName(name);
+	}
+
 	
 		
 }

@@ -94,6 +94,18 @@ public class PharmacyServiceImpl implements PharmacyService {
 
 	}
 
+	@Override
+	public List<Pharmacy> findPharmacyByName(String name) {
+		// TODO Auto-generated method stub
+		return pharmacyRepo.findByName(name);
+	}
+
+	@Override
+	public List<Pharmacy> findPharmacyByAddress(int zip) {
+		// TODO Auto-generated method stub
+		return pharmacyRepo.findByAddress(zip);
+	}
+
 	
 
 }
