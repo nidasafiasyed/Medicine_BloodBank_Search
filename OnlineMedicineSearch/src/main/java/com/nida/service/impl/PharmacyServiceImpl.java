@@ -2,6 +2,7 @@ package com.nida.service.impl;
 
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 
@@ -38,14 +39,15 @@ public class PharmacyServiceImpl implements PharmacyService {
 	@Override
 	public List<Pharmacy> findPharmacyByName(String name) {
 		// TODO Auto-generated method stub
-		List<Pharmacy> pharmacies = pharmacyRepo.findByName(name);
+		List<Pharmacy> pharmacies = pharmacyRepo.findAll();//ByName(name);
 		return pharmacies;
 	}
 
 	@Override
-	public List<Pharmacy> findPharmacyByAddress(String zip) {
+	public List<Pharmacy> findPharmacyByAddress(int zip) {
 		// TODO Auto-generated method stub
-		return null;
+		List<Pharmacy> pharmacies = pharmacyRepo.findAll();//ByAddress(zip);
+		return pharmacies;
 	}
 
 	@Override
@@ -69,7 +71,7 @@ public class PharmacyServiceImpl implements PharmacyService {
 			  //need to define properly
 			  if(!pharmacy.getAddress().isEmpty()) {
 				  
-				  LinkedHashMap<String, String> ad = pharma.getAddress();
+				  Map<String, String> ad = pharma.getAddress();
 				  ad.putIfAbsent("street", "");
 				  ad.putIfAbsent("city", "");
 				  ad.putIfAbsent("state", "");

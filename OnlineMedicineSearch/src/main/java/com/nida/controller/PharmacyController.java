@@ -46,6 +46,11 @@ public class PharmacyController {
 		  return pharmacyService.findPharmacyByName(pharmaName);
 	  }
 	  
+	  @GetMapping("/getPharmacyAddress/{zipcode}")
+	  public List<Pharmacy> getPharmacyByAddress(@PathVariable(value = "zipcode") int zip){
+		  return pharmacyService.findPharmacyByAddress(zip);
+	  }
+	  
 	  @PutMapping("/updatePharmacy/{id}")
 	  public Pharmacy updatePharmacy(@PathVariable(value="id") int pharmaId, @Valid @RequestBody Pharmacy pharmacy) {
 		return pharmacyService.updatePharmacy(pharmaId, pharmacy);

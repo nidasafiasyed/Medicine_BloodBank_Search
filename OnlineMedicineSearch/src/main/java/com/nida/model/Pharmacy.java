@@ -4,10 +4,14 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
+import java.util.Map;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
+import javax.persistence.CollectionTable;
 import javax.persistence.Column;
+import javax.persistence.Convert;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -26,8 +30,8 @@ public class Pharmacy implements Serializable{
 	
 	private String name;
 	
-	private LinkedHashMap<String,String> address = new LinkedHashMap<String, String>();
-	
+	@Convert(converter = HashMapConverter.class)
+	private Map<String,String> address;
 	private boolean is24hrs;
 	
 	private boolean delivery;
@@ -47,10 +51,7 @@ public class Pharmacy implements Serializable{
 
 	public Pharmacy() {
 		super();
-		  this.address.putIfAbsent("street", "");
-		  this.address.putIfAbsent("city", "");
-		  this.address.putIfAbsent("state", "");
-		  this.address.putIfAbsent("zipcode", "");
+
 	}
 	
 
@@ -62,11 +63,11 @@ public class Pharmacy implements Serializable{
 		this.name = name;
 	}
 	
-	public LinkedHashMap<String, String> getAddress() {
+	public Map<String, String> getAddress() {
 		return address;
 	}
 	
-	public void setAddress(LinkedHashMap<String, String> address) {
+	public void setAddress(Map<String, String> address) {
 		this.address = address;
 	}
 	
