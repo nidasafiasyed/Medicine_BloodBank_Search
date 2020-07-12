@@ -1,6 +1,5 @@
 package com.nida.service.impl;
 
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -34,20 +33,6 @@ public class PharmacyServiceImpl implements PharmacyService {
 			return pharmacy.get();
 		}
 		return null;
-	}
-	
-	@Override
-	public List<Pharmacy> findPharmacyByName(String name) {
-		// TODO Auto-generated method stub
-		List<Pharmacy> pharmacies = pharmacyRepo.findAll();//ByName(name);
-		return pharmacies;
-	}
-
-	@Override
-	public List<Pharmacy> findPharmacyByAddress(int zip) {
-		// TODO Auto-generated method stub
-		List<Pharmacy> pharmacies = pharmacyRepo.findAll();//ByAddress(zip);
-		return pharmacies;
 	}
 
 	@Override

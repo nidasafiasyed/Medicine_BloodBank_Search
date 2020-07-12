@@ -41,15 +41,15 @@ public class PharmacyController {
 			return pharmacyService.findPharmacyById(pharmaId);
 		}
 	  
-	  @GetMapping("/getPharmacyName/{name}")
-	  public List<Pharmacy> getPharmacyByName(@PathVariable(value = "name") String pharmaName){
-		  return pharmacyService.findPharmacyByName(pharmaName);
-	  }
-	  
-	  @GetMapping("/getPharmacyAddress/{zipcode}")
-	  public List<Pharmacy> getPharmacyByAddress(@PathVariable(value = "zipcode") int zip){
-		  return pharmacyService.findPharmacyByAddress(zip);
-	  }
+		/*
+		 * @GetMapping("/getPharmacyName/{name}") public List<Pharmacy>
+		 * getPharmacyByName(@PathVariable(value = "name") String pharmaName){ return
+		 * pharmacyService.findPharmacyByName(pharmaName); }
+		 * 
+		 * @GetMapping("/getPharmacyAddress/{zipcode}") public List<Pharmacy>
+		 * getPharmacyByAddress(@PathVariable(value = "zipcode") int zip){ return
+		 * pharmacyService.findPharmacyByAddress(zip); }
+		 */
 	  
 	  @PutMapping("/updatePharmacy/{id}")
 	  public Pharmacy updatePharmacy(@PathVariable(value="id") int pharmaId, @Valid @RequestBody Pharmacy pharmacy) {
