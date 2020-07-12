@@ -6,9 +6,11 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.nida.OnlineMedicineSearchApplication;
 import com.nida.model.Medicine;
 import com.nida.model.Pharmacy;
 import com.nida.repo.PharmacyRepo;
@@ -19,10 +21,13 @@ public class PharmacyServiceImpl implements PharmacyService {
 	
 	@Autowired
 	private PharmacyRepo pharmacyRepo;
+	
+	static Logger log = Logger.getLogger(OnlineMedicineSearchApplication.class.getName());
 
 	@Override
 	public List<Pharmacy> findAllPharmacies() {
 		// TODO Auto-generated method stub
+		log.info("Found all pharmacies");
 		return pharmacyRepo.findAll();
 	}
 
@@ -31,14 +36,20 @@ public class PharmacyServiceImpl implements PharmacyService {
 		// TODO Auto-generated method stub
 		Optional<Pharmacy> pharmacy = pharmacyRepo.findById(pharmaId);
 		if(pharmacy.isPresent()) {
+			log.info("Found medicine with ID "+pharmaId);
 			return pharmacy.get();
 		}
+		else {
+			log.info("Did not find pharmacy with ID "+pharmaId);
+		}
+		
 		return null;
 	}
 
 	@Override
 	public Pharmacy insertPharmacy(Pharmacy pharmacy) {
 		// TODO Auto-generated method stub
+		log.info("Added pharmacy with ID "+pharmacy.getPharmaId());
 		return pharmacyRepo.save(pharmacy);
 	}
 
@@ -51,7 +62,8 @@ public class PharmacyServiceImpl implements PharmacyService {
 			  Pharmacy pharma = pharmaornull.get();
 			  
 			  if(pharmacy.getName()!=null) {
-				  pharma.setName(pharmacy.getName());  
+				  pharma.setName(pharmacy.getName());
+				  log.info("Updated pharmacy "+pharmaId+" name to "+pharmacy.getName());
 			  }
 			  
 			  //need to define properly
@@ -65,21 +77,29 @@ public class PharmacyServiceImpl implements PharmacyService {
 				  
 				  ad.putAll(pharmacy.getAddress());
 				  
-				 pharma.setAddress(ad);  
+				 pharma.setAddress(ad);
+				 log.info("Updated pharmacy "+pharmaId+" address with "+pharmacy.getAddress());
 			  }
 			  
 			  pharma.setDelivery(pharmacy.isDelivery());
+			  log.info("Updated pharmacy "+pharmaId+" delivery status");
 			  pharma.setIs24hrs(pharmacy.isIs24hrs());
+			  log.info("Updated pharmacy "+pharmaId+" 24 hrs status");
 			  
 			  
 			  if(!pharmacy.getMedicines().isEmpty()) {
 			  Set<Medicine> med = pharma.getMedicines();
 			  med.addAll(pharmacy.getMedicines());
 			  pharma.setMedicines(med);
+			  log.info("Updated pharmacy "+pharmaId+" medicine list with "+pharmacy.getMedicines());
 			  
 			  }
 			  return pharmacyRepo.save(pharma);
 		  }
+		  
+		  else {
+			  log.info("Pharmacy with ID "+pharmaId+" not found");
+			  }
 		  
 		  return null;
 	}
@@ -90,6 +110,10 @@ public class PharmacyServiceImpl implements PharmacyService {
 		Optional<Pharmacy> pharmacy = pharmacyRepo.findById(pharmaId);
 		if(pharmacy.isPresent()) {
 			pharmacyRepo.deleteById(pharmaId);
+			log.info("Pharmacy with "+pharmaId+" deleted");
+		}
+		else {
+			log.info("Pharmacy with "+pharmaId+" not found");
 		}
 
 	}
@@ -97,6 +121,7 @@ public class PharmacyServiceImpl implements PharmacyService {
 	@Override
 	public List<Pharmacy> findPharmacyByName(String name) {
 		// TODO Auto-generated method stub
+		log.info("Pharmacies with "+name+" found");
 		return pharmacyRepo.findByName(name);
 	}
 
@@ -107,6 +132,7 @@ public class PharmacyServiceImpl implements PharmacyService {
 		List<String> zipArray = Arrays.asList((Arrays.stream(zipnearby)
 				.mapToObj(String::valueOf))
 				.toArray(String[]::new));
+		log.info("Pharmacies with "+zip+" found");
 		return pharmacyRepo.findByAddress(zipArray);
 	}
 

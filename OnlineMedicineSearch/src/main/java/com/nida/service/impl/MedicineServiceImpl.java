@@ -4,9 +4,11 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.nida.OnlineMedicineSearchApplication;
 import com.nida.model.Medicine;
 import com.nida.model.Pharmacy;
 import com.nida.repo.MedicineRepo;
@@ -17,10 +19,13 @@ public class MedicineServiceImpl implements MedicineService {
 	
 	@Autowired
 	private MedicineRepo medicineRepo;
+	
+	static Logger log = Logger.getLogger(OnlineMedicineSearchApplication.class.getName());
 
 	@Override
 	public List<Medicine> findAllMedicines() {
 		// TODO Auto-generated method stub
+		log.info("Found all medicines");
 		return medicineRepo.findAll();
 	}
 
@@ -28,9 +33,16 @@ public class MedicineServiceImpl implements MedicineService {
 	public Medicine findMedicineById(int medId) {
 		// TODO Auto-generated method stub
 		Optional<Medicine> medicine = medicineRepo.findById(medId);
+		
 		if(medicine.isPresent()) {
+			log.info("Found medicine with ID "+medId);
 			return medicine.get();
 		}
+		
+		else {
+			log.info("Did not find medicine with ID "+medId);
+		}
+		
 		return null;
 	}
 
@@ -39,6 +51,7 @@ public class MedicineServiceImpl implements MedicineService {
 	@Override
 	public Medicine insertMedicine(Medicine medicine) {
 		// TODO Auto-generated method stub
+		log.info("Added medicine with ID "+medicine.getMedId());
 		return medicineRepo.save(medicine);
 	}
 
@@ -50,33 +63,41 @@ public class MedicineServiceImpl implements MedicineService {
 			  Medicine med = medornull.get();
 			  
 			   if(medicine.getName()!=null) {
-				   med.setName(medicine.getName());   
+				   med.setName(medicine.getName());
+				   log.info("Updated medicine name "+medId+" to "+medicine.getName());
 			   }
 			   
 			   if(medicine.getMg()!=null) {
-				   med.setMg(medicine.getMg());   
+				   med.setMg(medicine.getMg());
+				   log.info("Updated medicine dosage "+medId+" to "+medicine.getMg());
 			   }
 			  
 			  if(!medicine.getIngredients().isEmpty()) {
 				  Set<String> ing = med.getIngredients();
 				  ing.addAll(medicine.getIngredients());
-				  med.setIngredients(ing);  
+				  med.setIngredients(ing); 
+				  log.info("Updated medicine ingredients "+medId+" with "+medicine.getIngredients());
 			  }
 			  
 			  if(!medicine.getSideEffects().isEmpty()) {
 				  Set<String> se = med.getSideEffects();
 				  se.addAll(medicine.getSideEffects());
 				  med.setSideEffects(se);  
+				  log.info("Updated medicine side effects "+medId+" with "+medicine.getSideEffects());
 			  }
 			  
 			  if(!medicine.getPharmacies().isEmpty()) {
 			  Set<Pharmacy> ph = med.getPharmacies();
 			  ph.addAll(medicine.getPharmacies());
 			  med.setPharmacies(ph); 
+			  log.info("Updated medicine pharmacy list "+medId+" with "+medicine.getPharmacies());
 			 }
+			  
 			  return medicineRepo.save(med);
 		  }
-		  
+		  else {
+		  log.info("Medicine with ID "+medId+" not found");
+		  }
 		  return null;
 	}
 
@@ -86,12 +107,18 @@ public class MedicineServiceImpl implements MedicineService {
 		Optional<Medicine> medicine = medicineRepo.findById(medId);
 		if(medicine.isPresent()) {
 			medicineRepo.deleteById(medId);
+			log.info("Medicine with "+medId+" deleted");
+		}
+		
+		else {
+			log.info("Medicine with "+medId+" not found");
 		}
 	}
 
 	@Override
 	public List<Medicine> findMedicineByName(String name) {
 		// TODO Auto-generated method stub
+		log.info("Medicines with "+name+" found");
 		return medicineRepo.findByName(name);
 	}
 
