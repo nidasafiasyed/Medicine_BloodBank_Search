@@ -1,5 +1,6 @@
 package com.nida.service.impl;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -67,7 +68,6 @@ public class PharmacyServiceImpl implements PharmacyService {
 				 pharma.setAddress(ad);  
 			  }
 			  
-			  //how?
 			  pharma.setDelivery(pharmacy.isDelivery());
 			  pharma.setIs24hrs(pharmacy.isIs24hrs());
 			  
@@ -103,7 +103,11 @@ public class PharmacyServiceImpl implements PharmacyService {
 	@Override
 	public List<Pharmacy> findPharmacyByAddress(int zip) {
 		// TODO Auto-generated method stub
-		return pharmacyRepo.findByAddress(zip);
+		int zipnearby[] = {zip-2, zip-1, zip, zip+1, zip+2};
+		List<String> zipArray = Arrays.asList((Arrays.stream(zipnearby)
+				.mapToObj(String::valueOf))
+				.toArray(String[]::new));
+		return pharmacyRepo.findByAddress(zipArray);
 	}
 
 	
