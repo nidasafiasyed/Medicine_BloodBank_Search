@@ -14,17 +14,12 @@ public interface PharmacyDTORepo extends JpaRepository<Pharmacy, Integer>{
 	@Query(
 			  value = "SELECT * FROM pharmacies WHERE name LIKE %?1%", 
 			  nativeQuery = true)
-	List<Pharmacy> findByName(String name);
+	List<Pharmacy> findByName(String name, List<String> zip);
 	
 	@Query(
 			  value = "SELECT * FROM pharmacies WHERE address->>'$.zipcode' IN ?1", 
 			  nativeQuery = true)
 	 List<Pharmacy> findByAddress(List<String> zip);
 	
-	@Query(
-			  value = "SELECT * FROM pharmacies WHERE pharmacy_id = ?1", 
-			  nativeQuery = true)
-	 Pharmacy findById(int id);
-
 
 }

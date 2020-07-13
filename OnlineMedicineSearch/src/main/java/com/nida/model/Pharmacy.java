@@ -37,7 +37,7 @@ public class Pharmacy implements Serializable{
 	private boolean delivery;
 	
 	
-	@ManyToMany(cascade = CascadeType.ALL)
+	@ManyToMany
 	private Set<Medicine> medicines = new HashSet<>();
 	 
 	

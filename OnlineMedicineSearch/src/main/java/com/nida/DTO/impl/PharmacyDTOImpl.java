@@ -7,13 +7,13 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.nida.DTO.PharmacyDTO;
+import com.nida.DTO.PharmacySearch;
 import com.nida.DTO.repo.PharmacyDTORepo;
 import com.nida.exception.PharmacyNotFoundException;
 import com.nida.model.Pharmacy;
 
 @Service
-public class PharmacyDTOImpl implements PharmacyDTO {
+public class PharmacyDTOImpl implements PharmacySearch {
 	
 	static Logger log = Logger.getLogger(PharmacyDTOImpl.class.getName());
 	
@@ -21,9 +21,14 @@ public class PharmacyDTOImpl implements PharmacyDTO {
 	PharmacyDTORepo pharmacyRepo;
 
 	@Override
-	public List<Pharmacy> findPharmacyByName(String name) {
+	public List<Pharmacy> findPharmacyByName(String name, int zip) {
 		// TODO Auto-generated method stub
-		List<Pharmacy> pharmacies = pharmacyRepo.findByName(name);
+		int zipnearby[] = {zip-2, zip-1, zip, zip+1, zip+2};
+		List<String> zipArray = Arrays.asList((Arrays.stream(zipnearby)
+				.mapToObj(String::valueOf))
+				.toArray(String[]::new));
+		
+		List<Pharmacy> pharmacies = pharmacyRepo.findByName(name, zipArray);
 		if(pharmacies.isEmpty()) {
 			log.info("Pharmacies with "+name+" not found");
 			throw new PharmacyNotFoundException(name);
@@ -55,18 +60,5 @@ public class PharmacyDTOImpl implements PharmacyDTO {
 		}
 	}
 
-	@Override
-	public Pharmacy findPharmacyById(int id) {
-		// TODO Auto-generated method stub
-		Pharmacy pharmacy = pharmacyRepo.findById(id);
-		if(pharmacy != null) {
-			log.info("Found medicine with ID "+id);
-			return pharmacy;
-		}
-		else {
-			log.info("Did not find pharmacy with ID "+id);
-			throw new PharmacyNotFoundException(id);
-		}
-	}
 
 }

@@ -44,6 +44,20 @@ public class PharmacyServiceImpl implements PharmacyService {
 		return pharmacies;
 		}
 	}
+	
+	@Override
+	public Pharmacy findPharmacyById(int id) {
+		// TODO Auto-generated method stub
+		Optional<Pharmacy> pharmaornull = pharmacyRepo.findById(id);
+		if(pharmaornull.isPresent()) {
+			log.info("Found medicine with ID "+id);
+			return pharmaornull.get();
+		}
+		else {
+			log.info("Did not find pharmacy with ID "+id);
+			throw new PharmacyNotFoundException(id);
+		}
+	}
 
 	@Override
 	public Pharmacy insertPharmacy(Pharmacy pharmacy) {

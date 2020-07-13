@@ -42,6 +42,22 @@ public class MedicineServiceImpl implements MedicineService {
 		}
 		
 	}
+	
+	@Override
+	public Medicine findMedicineById(int id) {
+		// TODO Auto-generated method stub
+		Optional<Medicine> medornull = medicineRepo.findById(id);
+		
+		if(medornull.isPresent()) {
+			log.info("Found medicine with ID "+id);
+			return medornull.get();
+		}
+		
+		else {
+			log.info("Medicine with "+id+" not found");
+			throw new MedicineNotFoundException(id);
+		}
+	}
 
 	@Override
 	public Medicine insertMedicine(Medicine medicine) {

@@ -11,14 +11,10 @@ import com.nida.model.Medicine;
 @Repository
 public interface MedicineDTORepo extends JpaRepository<Medicine, Integer>{
 	
-	@Query(
-			  value = "SELECT * FROM medicines WHERE medicine_id = ?1", 
-			  nativeQuery = true)
-	Medicine findById(int id);
 	
 	@Query(
 			  value = "SELECT * FROM medicines WHERE name LIKE %?1%", 
 			  nativeQuery = true)
-	List<Medicine> findByName(String name);
+	List<Medicine> findByName(String name, List<String> zip);
 
 }

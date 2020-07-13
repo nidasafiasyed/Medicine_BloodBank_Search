@@ -33,6 +33,12 @@ public class PharmacyController {
 		  return pharmacyService.findAllPharmacies();
 	  }
 	  
+	  @GetMapping("/getPharmacyID/{id}")
+		public Pharmacy getPharmacyById(@PathVariable(value = "id") int pharmaId) {
+		  log.info("User requesting pharmacy search by ID");
+			return pharmacyService.findPharmacyById(pharmaId);
+		}
+	  
 
 	  @PostMapping("/addPharmacy") 
 	  public Pharmacy addPharmacy(@Valid @RequestBody Pharmacy pharmacy) {
@@ -53,7 +59,7 @@ public class PharmacyController {
 		}
 	 
 	  @PutMapping("/addMedicine/{id}") 
-	  public Pharmacy addMedicine(@PathVariable(value="id") int pharmaId, @RequestParam(value = "medicineId") int medId) {
+	  public Pharmacy addMedicine(@PathVariable(value="id") int pharmaId, @RequestParam(value = "mId") int medId) {
 		  log.info("User requesting adding medicine to pharmacy");
 		  return pharmacyService.insertMedicine(pharmaId, medId);
 	  }
