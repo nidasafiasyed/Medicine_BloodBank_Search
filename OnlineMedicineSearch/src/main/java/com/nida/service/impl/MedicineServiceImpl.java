@@ -9,9 +9,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.nida.exception.MedicineNotFoundException;
+import com.nida.exception.PharmacyNotFoundException;
 import com.nida.model.Medicine;
 import com.nida.model.Pharmacy;
 import com.nida.repo.MedicineRepo;
+import com.nida.repo.PharmacyRepo;
 import com.nida.service.MedicineService;
 
 @Service
@@ -19,6 +21,9 @@ public class MedicineServiceImpl implements MedicineService {
 	
 	@Autowired
 	private MedicineRepo medicineRepo;
+	
+	@Autowired
+	private PharmacyRepo pharmacyRepo;
 	
 	static Logger log = Logger.getLogger(MedicineServiceImpl.class.getName());
 
@@ -94,13 +99,6 @@ public class MedicineServiceImpl implements MedicineService {
 				  log.info("Updated medicine side effects "+medId+" with "+medicine.getSideEffects());
 			  }
 			  
-			  if(!medicine.getPharmacies().isEmpty()) {
-			  Set<Pharmacy> ph = med.getPharmacies();
-			  ph.addAll(medicine.getPharmacies());
-			  med.setPharmacies(ph); 
-			  log.info("Updated medicine pharmacy list "+medId+" with "+medicine.getPharmacies());
-			 }
-			  
 			  return medicineRepo.save(med);
 		  }
 		  else {
@@ -139,6 +137,30 @@ public class MedicineServiceImpl implements MedicineService {
 		} 
 	}
 
+	@Override
+	public Medicine insertPharmacy(int medId, int pharmaId) {
+		// TODO Auto-generated method stub
+		Optional<Medicine> medornull = medicineRepo.findById(medId);
+		Optional<Pharmacy> pharmaornull = pharmacyRepo.findById(pharmaId);
+		
+		  if(!medornull.isPresent()) {
+			 throw new MedicineNotFoundException(medId);
+		  }
+		
+		  if(!pharmaornull.isPresent()) {
+				 throw new PharmacyNotFoundException(pharmaId);
+		  }
+		  
+		  Medicine med = medornull.get();
+	      Pharmacy pharma = pharmaornull.get();
+	      
+	     Set<Pharmacy> ph = med.getPharmacies();
+	     ph.add(pharma);
+	     med.setPharmacies(ph); 
+	     log.info("Added pharmacy "+ pharmaId +" to medicine "+medId);
+	     
+	     return medicineRepo.save(med);
 	
+	}
 		
 }

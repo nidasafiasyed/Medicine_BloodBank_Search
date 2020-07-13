@@ -10,9 +10,11 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.nida.exception.MedicineNotFoundException;
 import com.nida.exception.PharmacyNotFoundException;
 import com.nida.model.Medicine;
 import com.nida.model.Pharmacy;
+import com.nida.repo.MedicineRepo;
 import com.nida.repo.PharmacyRepo;
 import com.nida.service.PharmacyService;
 
@@ -21,6 +23,9 @@ public class PharmacyServiceImpl implements PharmacyService {
 	
 	@Autowired
 	private PharmacyRepo pharmacyRepo;
+	
+	@Autowired
+	private MedicineRepo medicineRepo;
 	
 	static Logger log = Logger.getLogger(PharmacyServiceImpl.class.getName());
 
@@ -94,14 +99,6 @@ public class PharmacyServiceImpl implements PharmacyService {
 			  pharma.setIs24hrs(pharmacy.isIs24hrs());
 			  log.info("Updated pharmacy "+pharmaId+" 24 hrs status");
 			  
-			  
-			  if(!pharmacy.getMedicines().isEmpty()) {
-			  Set<Medicine> med = pharma.getMedicines();
-			  med.addAll(pharmacy.getMedicines());
-			  pharma.setMedicines(med);
-			  log.info("Updated pharmacy "+pharmaId+" medicine list with "+pharmacy.getMedicines());
-			  
-			  }
 			  return pharmacyRepo.save(pharma);
 		  }
 		  
@@ -160,6 +157,33 @@ public class PharmacyServiceImpl implements PharmacyService {
 			return pharmacies;	
 		}
 		
+	}
+
+	@Override
+	public Pharmacy insertMedicine(int pharmaId, int medId) {
+		// TODO Auto-generated method stub
+		Optional<Medicine> medornull = medicineRepo.findById(medId);
+		Optional<Pharmacy> pharmaornull = pharmacyRepo.findById(pharmaId);
+		
+		  if(!medornull.isPresent()) {
+			 throw new MedicineNotFoundException(medId);
+		  }
+		
+		  if(!pharmaornull.isPresent()) {
+				 throw new PharmacyNotFoundException(pharmaId);
+		  }
+		  
+		  Medicine med = medornull.get();
+	      Pharmacy pharma = pharmaornull.get();
+	      
+		  Set<Medicine> md = pharma.getMedicines();
+		  md.add(med);
+		  pharma.setMedicines(md);
+		  log.info("Added medicine "+ medId +" to pharmacy "+pharmaId);
+		  
+		  return pharmacyRepo.save(pharma);
+		  
+	     
 	}
 
 	

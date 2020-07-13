@@ -13,10 +13,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.nida.model.Medicine;
-
+import com.nida.model.Pharmacy;
 import com.nida.service.MedicineService;
 
 @RestController
@@ -65,5 +66,11 @@ public class MedicineController {
 			medicineService.deleteMedicine(medId);
 				
 		}
+	  
+	  @PutMapping("/addPharmacy/{id}") 
+	  public Medicine addPharmacy(@PathVariable(value="id") int medId, @RequestParam(value = "pharmacyId") int pharmaId) {
+		  log.info("User requesting adding pharmacy to medicine");
+		  return medicineService.insertPharmacy(medId, pharmaId);
+	  }
 
 }
