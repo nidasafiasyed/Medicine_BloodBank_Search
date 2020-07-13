@@ -44,24 +44,6 @@ public class MedicineServiceImpl implements MedicineService {
 	}
 
 	@Override
-	public Medicine findMedicineById(int medId) {
-		// TODO Auto-generated method stub
-		Optional<Medicine> medicine = medicineRepo.findById(medId);
-		
-		if(medicine.isPresent()) {
-			log.info("Found medicine with ID "+medId);
-			return medicine.get();
-		}
-		
-		else {
-			log.info("Did not find medicine with ID "+medId);
-			throw new MedicineNotFoundException(medId);
-		}
-	}
-
-
-
-	@Override
 	public Medicine insertMedicine(Medicine medicine) {
 		// TODO Auto-generated method stub
 		log.info("Added medicine with ID "+medicine.getMedId());
@@ -121,20 +103,6 @@ public class MedicineServiceImpl implements MedicineService {
 			log.info("Medicine with "+medId+" not found");
 			throw new MedicineNotFoundException(medId);
 		}
-	}
-
-	@Override
-	public List<Medicine> findMedicineByName(String name) {
-		// TODO Auto-generated method stub
-		List<Medicine> medicines = medicineRepo.findByName(name);
-		if(medicines.isEmpty()) {
-			log.info("Medicines with "+name+" not found");
-			throw new MedicineNotFoundException(name);
-		}
-		else {
-		log.info("Medicines with "+name+" found");
-		return medicines;
-		} 
 	}
 
 	@Override

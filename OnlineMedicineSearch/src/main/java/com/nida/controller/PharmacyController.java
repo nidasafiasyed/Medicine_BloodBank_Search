@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.nida.model.Medicine;
 import com.nida.model.Pharmacy;
 import com.nida.service.PharmacyService;
 
@@ -40,29 +39,6 @@ public class PharmacyController {
 		  log.info("User requesting addition of pharmacy");
 		  return pharmacyService.insertPharmacy(pharmacy);
 	  }
-	  
-	  
-	  @GetMapping("/getPharmacyID/{id}")
-		public Pharmacy getPharmacyById(@PathVariable(value = "id") int pharmaId) {
-		  log.info("User requesting pharmacy search by ID");
-			return pharmacyService.findPharmacyById(pharmaId);
-		}
-	  
-		
-		  @GetMapping("/getPharmacyName/{name}") public List<Pharmacy>
-		  getPharmacyByName(@PathVariable(value = "name") String pharmaName)
-		  { 
-			  log.info("User requesting pharmacy search by name");
-			  return pharmacyService.findPharmacyByName(pharmaName); 
-			  }
-		  
-		  @GetMapping("/getPharmacyAddress/{zipcode}") public List<Pharmacy>
-		  getPharmacyByAddress(@PathVariable(value = "zipcode") int zip)
-		  { 
-			  log.info("User requesting pharmacy search by zipcode");
-			  return pharmacyService.findPharmacyByAddress(zip); 
-			  }
-		 
 	  
 	  @PutMapping("/updatePharmacy/{id}")
 	  public Pharmacy updatePharmacy(@PathVariable(value="id") int pharmaId, @Valid @RequestBody Pharmacy pharmacy) {

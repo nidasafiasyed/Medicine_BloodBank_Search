@@ -46,20 +46,6 @@ public class PharmacyServiceImpl implements PharmacyService {
 	}
 
 	@Override
-	public Pharmacy findPharmacyById(int pharmaId) {
-		// TODO Auto-generated method stub
-		Optional<Pharmacy> pharmacy = pharmacyRepo.findById(pharmaId);
-		if(pharmacy.isPresent()) {
-			log.info("Found medicine with ID "+pharmaId);
-			return pharmacy.get();
-		}
-		else {
-			log.info("Did not find pharmacy with ID "+pharmaId);
-			throw new PharmacyNotFoundException(pharmaId);
-		}
-	}
-
-	@Override
 	public Pharmacy insertPharmacy(Pharmacy pharmacy) {
 		// TODO Auto-generated method stub
 		log.info("Added pharmacy with ID "+pharmacy.getPharmaId());
@@ -123,42 +109,7 @@ public class PharmacyServiceImpl implements PharmacyService {
 
 	}
 
-	@Override
-	public List<Pharmacy> findPharmacyByName(String name) {
-		// TODO Auto-generated method stub
-		List<Pharmacy> pharmacies = pharmacyRepo.findByName(name);
-		if(pharmacies.isEmpty()) {
-			log.info("Pharmacies with "+name+" not found");
-			throw new PharmacyNotFoundException(name);
-		}
-		else {
-		log.info("Pharmacies with "+name+" found");
-		return pharmacies;
-		}
-	}
-
-	@Override
-	public List<Pharmacy> findPharmacyByAddress(int zip) {
-		// TODO Auto-generated method stub
-		int zipnearby[] = {zip-2, zip-1, zip, zip+1, zip+2};
-		List<String> zipArray = Arrays.asList((Arrays.stream(zipnearby)
-				.mapToObj(String::valueOf))
-				.toArray(String[]::new));
-		
-		List<Pharmacy> pharmacies = pharmacyRepo.findByAddress(zipArray);
-		
-		if (pharmacies.isEmpty()) {
-			log.info("Pharmacies near "+zip+" found");
-			throw new PharmacyNotFoundException(zipArray);
-		}
-		
-		else {
-			log.info("Pharmacies near "+zip+" found");
-			return pharmacies;	
-		}
-		
-	}
-
+	
 	@Override
 	public Pharmacy insertMedicine(int pharmaId, int medId) {
 		// TODO Auto-generated method stub
