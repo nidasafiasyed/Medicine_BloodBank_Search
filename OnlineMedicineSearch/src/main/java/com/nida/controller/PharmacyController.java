@@ -23,7 +23,7 @@ import com.nida.service.PharmacyService;
 @RequestMapping("/pharmacy")
 public class PharmacyController {
 	
-	static Logger log = Logger.getLogger(OnlineMedicineSearchApplication.class.getName());
+	static Logger log = Logger.getLogger(PharmacyController.class.getName());
 	 @Autowired
 	 private PharmacyService pharmacyService;
 	

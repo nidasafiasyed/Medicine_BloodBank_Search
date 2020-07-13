@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.nida.OnlineMedicineSearchApplication;
+import com.nida.exception.MedicineNotFoundException;
 import com.nida.model.Medicine;
 import com.nida.model.Pharmacy;
 import com.nida.repo.MedicineRepo;
@@ -20,13 +21,22 @@ public class MedicineServiceImpl implements MedicineService {
 	@Autowired
 	private MedicineRepo medicineRepo;
 	
-	static Logger log = Logger.getLogger(OnlineMedicineSearchApplication.class.getName());
+	static Logger log = Logger.getLogger(MedicineServiceImpl.class.getName());
 
 	@Override
 	public List<Medicine> findAllMedicines() {
 		// TODO Auto-generated method stub
-		log.info("Found all medicines");
-		return medicineRepo.findAll();
+		
+		List<Medicine> medicines = medicineRepo.findAll();
+		if(medicines.isEmpty()) {
+			log.info("Empty medicine list");
+			throw new MedicineNotFoundException();
+		}
+		else {
+			log.info("Found all medicines");
+			return medicines;
+		}
+		
 	}
 
 	@Override
@@ -41,9 +51,8 @@ public class MedicineServiceImpl implements MedicineService {
 		
 		else {
 			log.info("Did not find medicine with ID "+medId);
+			throw new MedicineNotFoundException(medId);
 		}
-		
-		return null;
 	}
 
 
@@ -97,8 +106,9 @@ public class MedicineServiceImpl implements MedicineService {
 		  }
 		  else {
 		  log.info("Medicine with ID "+medId+" not found");
+		  throw new MedicineNotFoundException(medId);
 		  }
-		  return null;
+		 
 	}
 
 	@Override
@@ -112,14 +122,22 @@ public class MedicineServiceImpl implements MedicineService {
 		
 		else {
 			log.info("Medicine with "+medId+" not found");
+			throw new MedicineNotFoundException(medId);
 		}
 	}
 
 	@Override
 	public List<Medicine> findMedicineByName(String name) {
 		// TODO Auto-generated method stub
+		List<Medicine> medicines = medicineRepo.findByName(name);
+		if(medicines.isEmpty()) {
+			log.info("Medicines with "+name+" not found");
+			throw new MedicineNotFoundException(name);
+		}
+		else {
 		log.info("Medicines with "+name+" found");
-		return medicineRepo.findByName(name);
+		return medicines;
+		} 
 	}
 
 	

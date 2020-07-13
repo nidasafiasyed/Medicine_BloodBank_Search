@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.nida.OnlineMedicineSearchApplication;
+import com.nida.exception.MedicineNotFoundException;
 import com.nida.model.Medicine;
 
 import com.nida.service.MedicineService;
@@ -24,7 +25,7 @@ import com.nida.service.MedicineService;
 @RequestMapping("/medicine")
 public class MedicineController {
 	
-	static Logger log = Logger.getLogger(OnlineMedicineSearchApplication.class.getName());
+	static Logger log = Logger.getLogger(MedicineController.class.getName());
 
 	@Autowired
 	private MedicineService medicineService;
@@ -39,7 +40,7 @@ public class MedicineController {
 	@GetMapping("/getMedicineID/{id}")
 	public Medicine getMedicineById(@PathVariable(value = "id") int medId) {
 		log.info("User requesting medicine search by ID");
-		return medicineService.findMedicineById(medId);	
+		return medicineService.findMedicineById(medId);
 	}
 	
 	@GetMapping("getMedicineName/{name}")

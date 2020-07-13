@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.nida.OnlineMedicineSearchApplication;
+import com.nida.exception.PharmacyNotFoundException;
 import com.nida.model.Medicine;
 import com.nida.model.Pharmacy;
 import com.nida.repo.PharmacyRepo;
@@ -22,13 +23,22 @@ public class PharmacyServiceImpl implements PharmacyService {
 	@Autowired
 	private PharmacyRepo pharmacyRepo;
 	
-	static Logger log = Logger.getLogger(OnlineMedicineSearchApplication.class.getName());
+	private static Logger log = Logger.getLogger(PharmacyServiceImpl.class.getName());
 
 	@Override
 	public List<Pharmacy> findAllPharmacies() {
 		// TODO Auto-generated method stub
+		List<Pharmacy> pharmacies = pharmacyRepo.findAll();
+		
+		if(pharmacies.isEmpty()) {
+			log.info("Empty pharmacy list");
+			throw new PharmacyNotFoundException();
+		}
+		
+		else {
 		log.info("Found all pharmacies");
-		return pharmacyRepo.findAll();
+		return pharmacies;
+		}
 	}
 
 	@Override
@@ -41,9 +51,8 @@ public class PharmacyServiceImpl implements PharmacyService {
 		}
 		else {
 			log.info("Did not find pharmacy with ID "+pharmaId);
+			throw new PharmacyNotFoundException(pharmaId);
 		}
-		
-		return null;
 	}
 
 	@Override
@@ -99,9 +108,8 @@ public class PharmacyServiceImpl implements PharmacyService {
 		  
 		  else {
 			  log.info("Pharmacy with ID "+pharmaId+" not found");
+			  throw new PharmacyNotFoundException(pharmaId);
 			  }
-		  
-		  return null;
 	}
 
 	@Override
@@ -114,6 +122,7 @@ public class PharmacyServiceImpl implements PharmacyService {
 		}
 		else {
 			log.info("Pharmacy with "+pharmaId+" not found");
+			throw new PharmacyNotFoundException(pharmaId);
 		}
 
 	}
@@ -121,8 +130,15 @@ public class PharmacyServiceImpl implements PharmacyService {
 	@Override
 	public List<Pharmacy> findPharmacyByName(String name) {
 		// TODO Auto-generated method stub
+		List<Pharmacy> pharmacies = pharmacyRepo.findByName(name);
+		if(pharmacies.isEmpty()) {
+			log.info("Pharmacies with "+name+" not found");
+			throw new PharmacyNotFoundException(name);
+		}
+		else {
 		log.info("Pharmacies with "+name+" found");
-		return pharmacyRepo.findByName(name);
+		return pharmacies;
+		}
 	}
 
 	@Override
@@ -132,8 +148,19 @@ public class PharmacyServiceImpl implements PharmacyService {
 		List<String> zipArray = Arrays.asList((Arrays.stream(zipnearby)
 				.mapToObj(String::valueOf))
 				.toArray(String[]::new));
-		log.info("Pharmacies with "+zip+" found");
-		return pharmacyRepo.findByAddress(zipArray);
+		
+		List<Pharmacy> pharmacies = pharmacyRepo.findByAddress(zipArray);
+		
+		if (pharmacies.isEmpty()) {
+			log.info("Pharmacies near "+zip+" found");
+			throw new PharmacyNotFoundException(zipArray);
+		}
+		
+		else {
+			log.info("Pharmacies near "+zip+" found");
+			return pharmacies;	
+		}
+		
 	}
 
 	
