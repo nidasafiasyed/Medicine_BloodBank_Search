@@ -1,5 +1,6 @@
 package com.nida;
 
+import org.apache.log4j.PropertyConfigurator;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
@@ -7,7 +8,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class OnlineMedicineSearchApplication {
 	
 	public static void main(String[] args) {
+
 		SpringApplication.run(OnlineMedicineSearchApplication.class, args);
+		PropertyConfigurator.configure("src/main/resources/log4j.properties");
 
     }
 

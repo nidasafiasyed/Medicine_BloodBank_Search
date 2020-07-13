@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.nida.OnlineMedicineSearchApplication;
 import com.nida.model.Pharmacy;
 import com.nida.service.PharmacyService;
 

@@ -10,7 +10,6 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.nida.OnlineMedicineSearchApplication;
 import com.nida.exception.PharmacyNotFoundException;
 import com.nida.model.Medicine;
 import com.nida.model.Pharmacy;
@@ -23,7 +22,7 @@ public class PharmacyServiceImpl implements PharmacyService {
 	@Autowired
 	private PharmacyRepo pharmacyRepo;
 	
-	private static Logger log = Logger.getLogger(PharmacyServiceImpl.class.getName());
+	static Logger log = Logger.getLogger(PharmacyServiceImpl.class.getName());
 
 	@Override
 	public List<Pharmacy> findAllPharmacies() {

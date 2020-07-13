@@ -15,8 +15,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.nida.OnlineMedicineSearchApplication;
-import com.nida.exception.MedicineNotFoundException;
 import com.nida.model.Medicine;
 
 import com.nida.service.MedicineService;
