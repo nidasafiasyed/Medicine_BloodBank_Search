@@ -1,4 +1,4 @@
-package com.nida.DTO.Controller;
+package com.nida.DTO.controller;
 
 import java.util.List;
 
