@@ -6,20 +6,14 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import com.nida.DTO.PharmacySearchDTO;
 import com.nida.model.Pharmacy;
 
 @Repository
 public interface PharmacyDTORepo extends JpaRepository<Pharmacy, Integer>{
 	
-	@Query(
-			  value = "SELECT * FROM pharmacies WHERE name LIKE %?1%", 
-			  nativeQuery = true)
-	List<Pharmacy> findByName(String name, List<String> zip);
-	
-	@Query(
-			  value = "SELECT * FROM pharmacies WHERE address->>'$.zipcode' IN ?1", 
-			  nativeQuery = true)
-	 List<Pharmacy> findByAddress(List<String> zip);
-	
+	@Query("SELECT new com.nida.DTO.MedicineSearchDTO(m.name, m.mg, p.name, p.address, p.is24hrs, p.delivery) "
+			+ "FROM Medicine m INNER JOIN m.pharmacies p")
+	List<PharmacySearchDTO> searchByName(String name, List<String> zip);
 
 }

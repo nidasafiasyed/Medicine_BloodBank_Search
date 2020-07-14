@@ -1,8 +1,6 @@
 package com.nida.service.impl;
 
-import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 
@@ -79,18 +77,9 @@ public class PharmacyServiceImpl implements PharmacyService {
 				  log.info("Updated pharmacy "+pharmaId+" name to "+pharmacy.getName());
 			  }
 			  
-			  //need to define properly
-			  if(!pharmacy.getAddress().isEmpty()) {
-				  
-				  Map<String, String> ad = pharma.getAddress();
-				  ad.putIfAbsent("street", "");
-				  ad.putIfAbsent("city", "");
-				  ad.putIfAbsent("state", "");
-				  ad.putIfAbsent("zipcode", "");
-				  
-				  ad.putAll(pharmacy.getAddress());
-				  
-				 pharma.setAddress(ad);
+			
+			  if(pharmacy.getAddress()!=null) {
+				  pharma.setAddress(pharmacy.getAddress());
 				 log.info("Updated pharmacy "+pharmaId+" address with "+pharmacy.getAddress());
 			  }
 			  

@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.nida.DTO.MedicineSearch;
-import com.nida.model.Medicine;
+import com.nida.DTO.MedicineSearchDTO;
+import com.nida.DTO.service.MedicineDTOService;
 
 @RestController
 @RequestMapping("/medicine")
@@ -20,12 +20,12 @@ public class MedicineDTOController {
 	static Logger log = Logger.getLogger(MedicineDTOController.class.getName());
 	
 	@Autowired
-	MedicineSearch medicineDTO;
+	MedicineDTOService medicineService;
 	
 	@GetMapping("getMedicineName/{name}")
-	public List<Medicine> getMedicineByName(@PathVariable(value = "name") String medName, @RequestParam(value = "zip")int zip){
+	public List<MedicineSearchDTO> getMedicineByName(@PathVariable(value = "name") String medName, @RequestParam(value = "zip")int zip){
 		log.info("User requesting medicine search by name");
-		return medicineDTO.findMedicineByName(medName, zip);
+		return medicineService.searchMedicine(medName, zip);
 	}
 
 }
