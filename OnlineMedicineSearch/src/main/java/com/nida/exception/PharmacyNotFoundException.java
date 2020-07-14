@@ -21,4 +21,14 @@ public class PharmacyNotFoundException extends RuntimeException{
 		super("There are no pharmacies here");
 	}
 
+	public PharmacyNotFoundException(String name, int zip) {
+		// TODO Auto-generated constructor stub
+		super("Pharmacy with name "+name+" near "+zip+" not found");
+	}
+
+	public PharmacyNotFoundException(int pharmaId, int zipcode) {
+		// TODO Auto-generated constructor stub
+		super("Pharmacy "+pharmaId+" updated with invalid zipcode "+zipcode);
+	}
+
 }

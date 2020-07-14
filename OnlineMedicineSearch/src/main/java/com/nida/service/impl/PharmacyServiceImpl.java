@@ -78,9 +78,30 @@ public class PharmacyServiceImpl implements PharmacyService {
 			  }
 			  
 			
-			  if(pharmacy.getAddress()!=null) {
-				  pharma.setAddress(pharmacy.getAddress());
-				 log.info("Updated pharmacy "+pharmaId+" address with "+pharmacy.getAddress());
+			  if(pharmacy.getStreet()!=null) {
+				  pharma.setStreet(pharmacy.getStreet());
+				 log.info("Updated pharmacy "+pharmaId+" address with "+pharmacy.getStreet());
+			  }
+			  
+			  if(pharmacy.getCity()!=null) {
+				  pharma.setCity(pharmacy.getCity());
+				 log.info("Updated pharmacy "+pharmaId+" address with "+pharmacy.getCity());
+			  }
+			  
+			  if(pharmacy.getState()!=null) {
+				  pharma.setState(pharmacy.getState());
+				 log.info("Updated pharmacy "+pharmaId+" address with "+pharmacy.getState());
+			  }
+			  
+			  
+			  if(String.valueOf(pharmacy.getZipcode()).length() == 5) {
+				  pharma.setZipcode(pharmacy.getZipcode());
+				 log.info("Updated pharmacy "+pharmaId+" address with "+pharmacy.getZipcode());
+			  }
+			  
+			  else {
+				  log.info("Incorrect zipcode updated to pharmacy address "+pharmacy.getZipcode());
+				  throw new PharmacyNotFoundException(pharmaId, pharmacy.getZipcode());
 			  }
 			  
 			  pharma.setDelivery(pharmacy.isDelivery());

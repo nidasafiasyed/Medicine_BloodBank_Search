@@ -16,6 +16,11 @@ public class MedicineNotFoundException extends RuntimeException{
 		// TODO Auto-generated constructor stub
 		super("There are no medicines here");
 	}
+
+	public MedicineNotFoundException(String name, int zip) {
+		// TODO Auto-generated constructor stub
+		super("Medicine with name "+name+" near "+zip+" not found");
+	}
 }
 
 

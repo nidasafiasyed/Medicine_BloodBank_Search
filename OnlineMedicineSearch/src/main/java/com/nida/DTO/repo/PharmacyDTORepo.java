@@ -12,8 +12,10 @@ import com.nida.model.Pharmacy;
 @Repository
 public interface PharmacyDTORepo extends JpaRepository<Pharmacy, Integer>{
 	
-	@Query("SELECT new com.nida.DTO.MedicineSearchDTO(m.name, m.mg, p.name, p.address, p.is24hrs, p.delivery) "
-			+ "FROM Medicine m INNER JOIN m.pharmacies p")
-	List<PharmacySearchDTO> searchByName(String name, List<String> zip);
+	@Query("SELECT new com.nida.DTO.PharmacySearchDTO(p.name, p.street, p.city, p.state, p.zipcode, p.is24hrs, p.delivery, m.name, m.mg) "
+			+ "FROM Medicine m INNER JOIN m.pharmacies p "
+			+ "WHERE p.name LIKE %?1% AND "
+			+ "p.zipcode IN ?2")
+	List<PharmacySearchDTO> searchByName(String name, List<Integer> zip);
 
 }

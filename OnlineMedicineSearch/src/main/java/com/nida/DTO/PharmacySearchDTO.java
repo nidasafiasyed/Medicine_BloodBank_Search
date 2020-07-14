@@ -4,22 +4,68 @@ package com.nida.DTO;
 public class PharmacySearchDTO {
 	
     private String pharmaName;
-	private String pharmaAddress;
+	private String pharmaStreet;
+	private String pharmaCity;
+	private String pharmaState;
+	private int pharmaZipCode;
 	private boolean is24hrs;
 	private boolean delivery;
 	private String medName;
-	private String medDosage;
+	private double medDosage;
 	
-	
-	public PharmacySearchDTO(String pharmaName, String pharmaAddress, boolean is24hrs, boolean delivery,
-			String medName, String medDosage) {
+
+	public PharmacySearchDTO(String pharmaName, String pharmaStreet, String pharmaCity, String pharmaState,
+			int pharmaZipCode, boolean is24hrs, boolean delivery, String medName, double medDosage) {
 		super();
 		this.pharmaName = pharmaName;
-		this.pharmaAddress = pharmaAddress;
+		this.pharmaStreet = pharmaStreet;
+		this.pharmaCity = pharmaCity;
+		this.pharmaState = pharmaState;
+		this.pharmaZipCode = pharmaZipCode;
 		this.is24hrs = is24hrs;
 		this.delivery = delivery;
 		this.medName = medName;
 		this.medDosage = medDosage;
+	}
+
+
+	public String getPharmaStreet() {
+		return pharmaStreet;
+	}
+
+
+	public void setPharmaStreet(String pharmaStreet) {
+		this.pharmaStreet = pharmaStreet;
+	}
+
+
+	public String getPharmaCity() {
+		return pharmaCity;
+	}
+
+
+	public void setPharmaCity(String pharmaCity) {
+		this.pharmaCity = pharmaCity;
+	}
+
+
+	public String getPharmaState() {
+		return pharmaState;
+	}
+
+
+	public void setPharmaState(String pharmaState) {
+		this.pharmaState = pharmaState;
+	}
+
+
+	public int getPharmaZipCode() {
+		return pharmaZipCode;
+	}
+
+
+	public void setPharmaZipCode(int pharmaZipCode) {
+		this.pharmaZipCode = pharmaZipCode;
 	}
 
 
@@ -30,16 +76,6 @@ public class PharmacySearchDTO {
 
 	public void setPharmaName(String pharmaName) {
 		this.pharmaName = pharmaName;
-	}
-
-
-	public String getPharmaAddress() {
-		return pharmaAddress;
-	}
-
-
-	public void setPharmaAddress(String pharmaAddress) {
-		this.pharmaAddress = pharmaAddress;
 	}
 
 
@@ -73,21 +109,24 @@ public class PharmacySearchDTO {
 	}
 
 
-	public String getMedDosage() {
+	public double getMedDosage() {
 		return medDosage;
 	}
 
 
-	public void setMedDosage(String medDosage) {
+	public void setMedDosage(double medDosage) {
 		this.medDosage = medDosage;
 	}
 
 
 	@Override
 	public String toString() {
-		return "PharmacySearchDTO [pharmaName=" + pharmaName + ", pharmaAddress=" + pharmaAddress + ", is24hrs="
+		return "PharmacySearchDTO [pharmaName=" + pharmaName + ", pharmaStreet=" + pharmaStreet + ", pharmaCity="
+				+ pharmaCity + ", pharmaState=" + pharmaState + ", pharmaZipCode=" + pharmaZipCode + ", is24hrs="
 				+ is24hrs + ", delivery=" + delivery + ", medName=" + medName + ", medDosage=" + medDosage + "]";
 	}
-	
+
+
+	 
 
 }

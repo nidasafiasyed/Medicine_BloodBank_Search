@@ -23,15 +23,12 @@ public class PharmacyDTOServImpl implements PharmacyDTOService {
 	@Override
 	public List<PharmacySearchDTO> searchPharmacy(String name, int zip) {
 		// TODO Auto-generated method stub
-		int zipnearby[] = {zip-2, zip-1, zip, zip+1, zip+2};
-		List<String> zipArray = Arrays.asList((Arrays.stream(zipnearby)
-				.mapToObj(String::valueOf))
-				.toArray(String[]::new));
-		List<PharmacySearchDTO> pharmacies = pharmacyRepo.searchByName(name, zipArray);
+		List<Integer> zipNearby = Arrays.asList(zip-2, zip-1, zip, zip+1, zip+2);
+		List<PharmacySearchDTO> pharmacies = pharmacyRepo.searchByName(name, zipNearby);
 		
 		if(pharmacies.isEmpty()) {
 			log.info("Empty pharmacy list");
-			throw new PharmacyNotFoundException();
+			throw new PharmacyNotFoundException(name, zip);
 		}
 		
 		else {

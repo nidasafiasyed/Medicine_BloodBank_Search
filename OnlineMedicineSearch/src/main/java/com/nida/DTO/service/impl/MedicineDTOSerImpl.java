@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.nida.DTO.MedicineSearchDTO;
 import com.nida.DTO.repo.MedicineDTORepo;
 import com.nida.DTO.service.MedicineDTOService;
+import com.nida.exception.MedicineNotFoundException;
 import com.nida.exception.PharmacyNotFoundException;
 
 @Service
@@ -23,16 +24,14 @@ public class MedicineDTOSerImpl implements MedicineDTOService {
 	@Override
 	public List<MedicineSearchDTO> searchMedicine(String name, int zip) {
 		// TODO Auto-generated method stub
-		int zipnearby[] = {zip-2, zip-1, zip, zip+1, zip+2};
-		List<String> zipArray = Arrays.asList((Arrays.stream(zipnearby)
-				.mapToObj(String::valueOf))
-				.toArray(String[]::new));
 		
-		List<MedicineSearchDTO> medicines = medicineRepo.searchByName(name, zipArray);
+		List<Integer> zipNearby = Arrays.asList(zip-2, zip-1, zip, zip+1, zip+2); 
+		
+		List<MedicineSearchDTO> medicines = medicineRepo.searchByName(name, zipNearby);
 		
 		if(medicines.isEmpty()) {
 			log.info("Empty pharmacy list");
-			throw new PharmacyNotFoundException();
+			throw new MedicineNotFoundException(name, zip);
 		}
 		
 		else {
