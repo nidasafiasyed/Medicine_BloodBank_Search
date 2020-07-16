@@ -5,12 +5,14 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.nida.DTO.BloodBankSearchDTO;
 import com.nida.DTO.repo.BloodBankDTORepo;
 import com.nida.DTO.service.BloodBankDTOService;
 import com.nida.exception.BloodBankNotFoundException;
 
+@Service
 public class BloodBankDTOSerImpl implements BloodBankDTOService{
 	
 	static Logger log = Logger.getLogger(BloodBankDTOSerImpl.class.getName());
