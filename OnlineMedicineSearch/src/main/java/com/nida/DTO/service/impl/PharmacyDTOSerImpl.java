@@ -13,9 +13,9 @@ import com.nida.DTO.service.PharmacyDTOService;
 import com.nida.exception.PharmacyNotFoundException;
 
 @Service
-public class PharmacyDTOServImpl implements PharmacyDTOService {
+public class PharmacyDTOSerImpl implements PharmacyDTOService {
 	
-	static Logger log = Logger.getLogger(PharmacyDTOServImpl.class.getName());
+	static Logger log = Logger.getLogger(PharmacyDTOSerImpl.class.getName());
 	
 	@Autowired
 	PharmacyDTORepo pharmacyRepo;

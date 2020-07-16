@@ -2,6 +2,8 @@ package com.nida.exception;
 
 import java.util.List;
 
+import com.nida.model.BloodType;
+
 public class BloodBankNotFoundException extends RuntimeException {
 
 	public BloodBankNotFoundException() {
@@ -24,14 +26,19 @@ public class BloodBankNotFoundException extends RuntimeException {
 	}
 	
 
-	public BloodBankNotFoundException(String name, int zip) {
+	public BloodBankNotFoundException(BloodType type, int zip) {
 		// TODO Auto-generated constructor stub
-		super("Blood bank with name "+name+" near "+zip+" not found");
+		super("Blood bank with type "+type+" near "+zip+" not found");
 	}
 
 	public BloodBankNotFoundException(int id, int zipcode) {
 		// TODO Auto-generated constructor stub
 		super("Blood Bank "+id+" cannot be updated with invalid zipcode "+zipcode);
+	}
+
+	public BloodBankNotFoundException(String name, int zip) {
+		// TODO Auto-generated constructor stub
+		super("Blood bank with name "+name+" near "+zip+" not found");
 	}
 	
 	}

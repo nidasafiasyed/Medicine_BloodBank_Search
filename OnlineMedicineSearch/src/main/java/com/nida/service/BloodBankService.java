@@ -12,6 +12,6 @@ public interface BloodBankService {
 	 BloodBank insertBloodBank(BloodBank bb);
 	 BloodBank updateBloodBank(int id, BloodBank bb);
 	 void deleteBloodBank(int id);
-	 BloodBank addBloodToBloodBank(int bbId, Blood bank);
+	 BloodBank addBloodToBloodBank(int bbId, Blood blood);
 
 }

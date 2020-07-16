@@ -1,5 +1,7 @@
 package com.nida.exception;
 
+import com.nida.model.BloodType;
+
 public class BloodNotFoundException extends RuntimeException {
 	
 	public BloodNotFoundException(int bId) {
@@ -17,7 +19,8 @@ public class BloodNotFoundException extends RuntimeException {
 		super("There is no blood here");
 	}
 
-	public BloodNotFoundException(String type, int zip) {
+
+	public BloodNotFoundException(BloodType type, int zip) {
 		// TODO Auto-generated constructor stub
 		super("Blood with type "+type+" near "+zip+" not found");
 	}
