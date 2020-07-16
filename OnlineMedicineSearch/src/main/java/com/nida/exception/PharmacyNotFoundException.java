@@ -8,7 +8,7 @@ public class PharmacyNotFoundException extends RuntimeException{
 		super("Pharmacy with ID "+pharmaId+" not found");
 	}
 	
-	public PharmacyNotFoundException(List<String> zipArray) {
+	public PharmacyNotFoundException(List<Integer> zipArray) {
 		super("Checked in localities"+zipArray+"\nPharmacies not found");
 	}
 
@@ -28,7 +28,7 @@ public class PharmacyNotFoundException extends RuntimeException{
 
 	public PharmacyNotFoundException(int pharmaId, int zipcode) {
 		// TODO Auto-generated constructor stub
-		super("Pharmacy "+pharmaId+" updated with invalid zipcode "+zipcode);
+		super("Pharmacy "+pharmaId+" cannot be updated with invalid zipcode "+zipcode);
 	}
 
 }

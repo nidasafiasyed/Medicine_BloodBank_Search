@@ -48,7 +48,7 @@ public class PharmacyServiceImpl implements PharmacyService {
 		// TODO Auto-generated method stub
 		Optional<Pharmacy> pharmaornull = pharmacyRepo.findById(id);
 		if(pharmaornull.isPresent()) {
-			log.info("Found medicine with ID "+id);
+			log.info("Found pharmacy with ID "+id);
 			return pharmaornull.get();
 		}
 		else {
@@ -154,6 +154,16 @@ public class PharmacyServiceImpl implements PharmacyService {
 		  Set<Medicine> md = pharma.getMedicines();
 		  md.add(med);
 		  pharma.setMedicines(md);
+		  
+			/*
+			 * Set<Pharmacy> ph = med.getPharmacies(); ph.add(pharma);
+			 * med.setPharmacies(ph); log.info("Added pharmacy "+ pharmaId
+			 * +" to medicine "+medId);
+			 * 
+			 * return medicineRepo.save(med);
+			 */
+		  
+		  
 		  log.info("Added medicine "+ medId +" to pharmacy "+pharmaId);
 		  
 		  return pharmacyRepo.save(pharma);
@@ -161,6 +171,5 @@ public class PharmacyServiceImpl implements PharmacyService {
 	     
 	}
 
-	
 
 }
