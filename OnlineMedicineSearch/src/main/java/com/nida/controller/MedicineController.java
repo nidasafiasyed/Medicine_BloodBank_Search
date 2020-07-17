@@ -1,8 +1,7 @@
 package com.nida.controller;
 
 import java.util.List;
-
-import javax.validation.Valid;
+import java.util.Optional;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +27,7 @@ public class MedicineController {
 	@Autowired
 	private MedicineService medicineService;
 	
-	@GetMapping("/getMedicines")
+	@GetMapping("/getAllMedicines")
 	public List<Medicine> getAllMedicines(){
 		log.info("User requesting all medicines");
 		return medicineService.findAllMedicines();
@@ -36,19 +35,19 @@ public class MedicineController {
 	}
 	
 	@GetMapping("/getMedicineID/{id}")
-	public Medicine getMedicineById(@PathVariable(value = "id") int medId) {
+	public Optional<Medicine> getMedicineById(@PathVariable(value = "id") int medId) {
 		log.info("User requesting medicine search by ID");
 		return medicineService.findMedicineById(medId);
 	}
 	
 	  @PostMapping("/addMedicine") 
-	  public Medicine addMedicine(@Valid @RequestBody Medicine medicine) {
+	  public Medicine addMedicine(@RequestBody Medicine medicine) {
 		  log.info("User requesting medicine creation");
 		  return medicineService.insertMedicine(medicine);
 	  }
 	  
 	  @PutMapping("/updateMedicine/{id}")
-	  public Medicine updateMedicine(@PathVariable(value="id") int medId, @Valid @RequestBody Medicine medicine) {
+	  public Medicine updateMedicine(@PathVariable(value="id") int medId, @RequestBody Medicine medicine) {
 		  log.info("User requesting medicine editing");
 		  return medicineService.updateMedicine(medId, medicine);
 	  }

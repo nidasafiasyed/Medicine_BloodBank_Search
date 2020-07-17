@@ -1,16 +1,20 @@
 package com.nida.model;
 
 import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 
 @Entity
 @Table(name="bloodlist")
@@ -19,25 +23,32 @@ public class Blood implements Serializable{
 	@Id
 	@Column(name = "blood_id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int bloodId;
+	private int id;
 	
 	private BloodType type;
 	
 	private double units;
 	
-	@ManyToMany
-	private Set<BloodBank> bloodBanks = new HashSet<>();
+	@JsonBackReference
+	@ManyToOne
+	@JoinColumn(name = "bloodbank_id")
+	private BloodBank bloodBank;
 
 	public Blood() {
 		super();
 	}
 
-	public int getBloodId() {
-		return bloodId;
+	public Blood(BloodType type) {
+		// TODO Auto-generated constructor stub
+		this.type = type;
 	}
 
-	public void setBloodId(int bloodId) {
-		this.bloodId = bloodId;
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	public BloodType getType() {
@@ -56,12 +67,13 @@ public class Blood implements Serializable{
 		this.units = units;
 	}
 
-	public Set<BloodBank> getBloodBanks() {
-		return bloodBanks;
+	public BloodBank getBloodBank() {
+		return bloodBank;
 	}
 
-	public void setBloodBanks(Set<BloodBank> bloodBanks) {
-		this.bloodBanks = bloodBanks;
+	public void setBloodBank(BloodBank bloodBank) {
+		this.bloodBank = bloodBank;
+		bloodBank.getBloodlist().add(this);
 	}
 	
 	

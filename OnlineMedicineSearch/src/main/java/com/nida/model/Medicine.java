@@ -17,6 +17,8 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 
 @Entity
 @Table(name="medicines")
@@ -39,7 +41,11 @@ public class Medicine implements Serializable{
 	private Set<String> sideEffects = new LinkedHashSet<String>();
 	
 	
-	  @ManyToMany(cascade = CascadeType.ALL)
+	  @JsonManagedReference
+	  @ManyToMany(cascade = {
+		        CascadeType.PERSIST,
+		        CascadeType.MERGE
+		    })
 	  @JoinTable(name="medicines_pharmacies", joinColumns = {@JoinColumn(name="medicine_id")}, inverseJoinColumns =
 	  {@JoinColumn(name="pharmacy_id")}) 
 	  private Set <Pharmacy> pharmacies = new HashSet<>();

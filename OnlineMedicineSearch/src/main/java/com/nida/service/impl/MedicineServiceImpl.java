@@ -44,13 +44,10 @@ public class MedicineServiceImpl implements MedicineService {
 	}
 	
 	@Override
-	public Medicine findMedicineById(int id) {
-		// TODO Auto-generated method stub
-		Optional<Medicine> medornull = medicineRepo.findById(id);
-		
-		if(medornull.isPresent()) {
+	public Optional<Medicine> findMedicineById(int id) {
+		if(medicineRepo.existsById(id)) {
 			log.info("Found medicine with ID "+id);
-			return medornull.get();
+			return medicineRepo.findById(id);
 		}
 		
 		else {
@@ -69,9 +66,9 @@ public class MedicineServiceImpl implements MedicineService {
 	@Override
 	public Medicine updateMedicine(int medId, Medicine medicine) {
 		// TODO Auto-generated method stub
-		Optional<Medicine> medornull = medicineRepo.findById(medId);
-		  if(medornull.isPresent()) {
-			  Medicine med = medornull.get();
+		
+		  if(medicineRepo.existsById(medId)) {
+			  Medicine med = medicineRepo.findById(medId).get();
 			  
 			   if(medicine.getName()!=null) {
 				   med.setName(medicine.getName());
@@ -109,8 +106,7 @@ public class MedicineServiceImpl implements MedicineService {
 	@Override
 	public void deleteMedicine(int medId) {
 		// TODO Auto-generated method stub
-		Optional<Medicine> medicine = medicineRepo.findById(medId);
-		if(medicine.isPresent()) {
+		if(medicineRepo.existsById(medId)) {
 			medicineRepo.deleteById(medId);
 			log.info("Medicine with "+medId+" deleted");
 		}
@@ -124,19 +120,17 @@ public class MedicineServiceImpl implements MedicineService {
 	@Override
 	public Medicine insertPharmacy(int medId, int pharmaId) {
 		// TODO Auto-generated method stub
-		Optional<Medicine> medornull = medicineRepo.findById(medId);
-		Optional<Pharmacy> pharmaornull = pharmacyRepo.findById(pharmaId);
 		
-		  if(!medornull.isPresent()) {
+		  if(!medicineRepo.existsById(medId)) {
 			 throw new MedicineNotFoundException(medId);
 		  }
 		
-		  if(!pharmaornull.isPresent()) {
+		  if(!pharmacyRepo.existsById(pharmaId)) {
 				 throw new PharmacyNotFoundException(pharmaId);
 		  }
 		  
-		  Medicine med = medornull.get();
-	      Pharmacy pharma = pharmaornull.get();
+		  Medicine med = medicineRepo.findById(medId).get();
+	      Pharmacy pharma = pharmacyRepo.findById(pharmaId).get();
 	      
 	     Set<Pharmacy> ph = med.getPharmacies();
 	     ph.add(pharma);

@@ -1,18 +1,13 @@
 package com.nida.service.impl;
 
 import java.util.List;
-import java.util.Optional;
-import java.util.Set;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.nida.exception.MedicineNotFoundException;
 import com.nida.exception.PharmacyNotFoundException;
-import com.nida.model.Medicine;
 import com.nida.model.Pharmacy;
-import com.nida.repo.MedicineRepo;
 import com.nida.repo.PharmacyRepo;
 import com.nida.service.PharmacyService;
 
@@ -21,9 +16,6 @@ public class PharmacyServiceImpl implements PharmacyService {
 	
 	@Autowired
 	private PharmacyRepo pharmacyRepo;
-	
-	@Autowired
-	private MedicineRepo medicineRepo;
 	
 	static Logger log = Logger.getLogger(PharmacyServiceImpl.class.getName());
 
@@ -46,10 +38,10 @@ public class PharmacyServiceImpl implements PharmacyService {
 	@Override
 	public Pharmacy findPharmacyById(int id) {
 		// TODO Auto-generated method stub
-		Optional<Pharmacy> pharmaornull = pharmacyRepo.findById(id);
-		if(pharmaornull.isPresent()) {
+		
+		if(pharmacyRepo.existsById(id)) {
 			log.info("Found pharmacy with ID "+id);
-			return pharmaornull.get();
+			return pharmacyRepo.findById(id).get();
 		}
 		else {
 			log.info("Did not find pharmacy with ID "+id);
@@ -67,17 +59,15 @@ public class PharmacyServiceImpl implements PharmacyService {
 	@Override
 	public Pharmacy updatePharmacy(int pharmaId, Pharmacy pharmacy) {
 		// TODO Auto-generated method stub
-		
-		  Optional<Pharmacy> pharmaornull = pharmacyRepo.findById(pharmaId);
-		  if(pharmaornull.isPresent()) {
-			  Pharmacy pharma = pharmaornull.get();
+
+		  if(pharmacyRepo.existsById(pharmaId)) {
+			  Pharmacy pharma = pharmacyRepo.findById(pharmaId).get();
 			  
 			  if(pharmacy.getName()!=null) {
 				  pharma.setName(pharmacy.getName());
 				  log.info("Updated pharmacy "+pharmaId+" name to "+pharmacy.getName());
 			  }
 			  
-			
 			  if(pharmacy.getStreet()!=null) {
 				  pharma.setStreet(pharmacy.getStreet());
 				 log.info("Updated pharmacy "+pharmaId+" address with "+pharmacy.getStreet());
@@ -99,11 +89,6 @@ public class PharmacyServiceImpl implements PharmacyService {
 				 log.info("Updated pharmacy "+pharmaId+" address with "+pharmacy.getZipcode());
 			  }
 			  
-			  else {
-				  log.info("Incorrect zipcode updated to pharmacy address "+pharmacy.getZipcode());
-				  throw new PharmacyNotFoundException(pharmaId, pharmacy.getZipcode());
-			  }
-			  
 			  pharma.setDelivery(pharmacy.isDelivery());
 			  log.info("Updated pharmacy "+pharmaId+" delivery status");
 			  pharma.setIs24hrs(pharmacy.isIs24hrs());
@@ -121,8 +106,8 @@ public class PharmacyServiceImpl implements PharmacyService {
 	@Override
 	public void deletePharmacy(int pharmaId) {
 		// TODO Auto-generated method stub
-		Optional<Pharmacy> pharmacy = pharmacyRepo.findById(pharmaId);
-		if(pharmacy.isPresent()) {
+		
+		if(pharmacyRepo.existsById(pharmaId)) {
 			pharmacyRepo.deleteById(pharmaId);
 			log.info("Pharmacy with "+pharmaId+" deleted");
 		}
@@ -133,43 +118,6 @@ public class PharmacyServiceImpl implements PharmacyService {
 
 	}
 
-	
-	@Override
-	public Pharmacy insertMedicine(int pharmaId, int medId) {
-		// TODO Auto-generated method stub
-		Optional<Medicine> medornull = medicineRepo.findById(medId);
-		Optional<Pharmacy> pharmaornull = pharmacyRepo.findById(pharmaId);
-		
-		  if(!medornull.isPresent()) {
-			 throw new MedicineNotFoundException(medId);
-		  }
-		
-		  if(!pharmaornull.isPresent()) {
-				 throw new PharmacyNotFoundException(pharmaId);
-		  }
-		  
-		  Medicine med = medornull.get();
-	      Pharmacy pharma = pharmaornull.get();
-	      
-		  Set<Medicine> md = pharma.getMedicines();
-		  md.add(med);
-		  pharma.setMedicines(md);
-		  
-			/*
-			 * Set<Pharmacy> ph = med.getPharmacies(); ph.add(pharma);
-			 * med.setPharmacies(ph); log.info("Added pharmacy "+ pharmaId
-			 * +" to medicine "+medId);
-			 * 
-			 * return medicineRepo.save(med);
-			 */
-		  
-		  
-		  log.info("Added medicine "+ medId +" to pharmacy "+pharmaId);
-		  
-		  return pharmacyRepo.save(pharma);
-		  
-	     
-	}
 
 
 }

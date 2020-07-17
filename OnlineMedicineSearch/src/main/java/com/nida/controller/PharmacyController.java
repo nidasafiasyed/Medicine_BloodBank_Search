@@ -2,8 +2,6 @@ package com.nida.controller;
 
 import java.util.List;
 
-import javax.validation.Valid;
-
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -13,7 +11,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.nida.model.Pharmacy;
@@ -27,7 +24,7 @@ public class PharmacyController {
 	 @Autowired
 	 private PharmacyService pharmacyService;
 	
-	  @GetMapping("/getPharmacies") 
+	  @GetMapping("/getAllPharmacies") 
 	  public List<Pharmacy> getAllPharmacies() {
 		  log.info("User requesting all pharmacies");
 		  return pharmacyService.findAllPharmacies();
@@ -41,13 +38,13 @@ public class PharmacyController {
 	  
 
 	  @PostMapping("/addPharmacy") 
-	  public Pharmacy addPharmacy(@Valid @RequestBody Pharmacy pharmacy) {
+	  public Pharmacy addPharmacy(@RequestBody Pharmacy pharmacy) {
 		  log.info("User requesting addition of pharmacy");
 		  return pharmacyService.insertPharmacy(pharmacy);
 	  }
 	  
 	  @PutMapping("/updatePharmacy/{id}")
-	  public Pharmacy updatePharmacy(@PathVariable(value="id") int pharmaId, @Valid @RequestBody Pharmacy pharmacy) {
+	  public Pharmacy updatePharmacy(@PathVariable(value="id") int pharmaId, @RequestBody Pharmacy pharmacy) {
 		  log.info("User requesting updating pharmacy");
 		return pharmacyService.updatePharmacy(pharmaId, pharmacy);
 	  }
@@ -58,10 +55,6 @@ public class PharmacyController {
 			pharmacyService.deletePharmacy(pharmaId);				
 		}
 	 
-	  @PutMapping("/addMedicine/{id}") 
-	  public Pharmacy addMedicine(@PathVariable(value="id") int pharmaId, @RequestParam(value = "mId") int medId) {
-		  log.info("User requesting adding medicine to pharmacy");
-		  return pharmacyService.insertMedicine(pharmaId, medId);
-	  }
+	 
 
 }

@@ -12,6 +12,8 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 @Entity
 @Table(name="pharmacies")
 public class Pharmacy implements Serializable{
@@ -33,8 +35,8 @@ public class Pharmacy implements Serializable{
 	
 	private boolean delivery;
 	
-	
-	@ManyToMany
+	@JsonBackReference
+	@ManyToMany(mappedBy = "pharmacies")
 	private Set<Medicine> medicines = new HashSet<>();
 	 
 	

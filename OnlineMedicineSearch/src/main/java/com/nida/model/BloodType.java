@@ -7,6 +7,7 @@ public enum BloodType {
 	    B_POSITIVE("B+"),
 	    B_NEGATIVE("B-"),
 	    O_NEGATIVE("O-"),
+	    O_POSITIVE("O+"),
 	    AB_POSITIVE("AB+"),
 	    AB_NEGATIVE("AB-");
 

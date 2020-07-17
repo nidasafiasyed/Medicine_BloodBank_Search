@@ -14,8 +14,8 @@ import com.nida.model.BloodType;
 public interface BloodDTORepo extends JpaRepository<Blood, Integer>{
 	
 	@Query("SELECT new com.nida.DTO.BloodSearchDTO(b.type, b.units, bb.name, bb.street, bb.city, bb.state, bb.zipcode, bb.is24hrs) "
-			+ "FROM bloodBank bb INNER JOIN bb.blood b "
-			+ "WHERE b.type LIKE %?1% AND "
+			+ "FROM BloodBank bb JOIN bb.bloodList b "
+			+ "WHERE b.type = ?1 AND "
 			+ "bb.zipcode IN ?2")
 	List<BloodSearchDTO> searchByName(BloodType type, List<Integer> zip);
 

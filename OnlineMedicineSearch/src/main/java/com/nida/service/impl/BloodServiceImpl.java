@@ -1,14 +1,18 @@
 package com.nida.service.impl;
 
 import java.util.List;
-import java.util.Optional;
+import java.util.Set;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.nida.exception.BloodBankNotFoundException;
 import com.nida.exception.BloodNotFoundException;
 import com.nida.model.Blood;
+import com.nida.model.BloodBank;
+import com.nida.model.BloodType;
+import com.nida.repo.BloodBankRepo;
 import com.nida.repo.BloodRepo;
 import com.nida.service.BloodService;
 
@@ -17,6 +21,9 @@ public class BloodServiceImpl implements BloodService {
 	
 	@Autowired
 	BloodRepo bloodRepo;
+	
+	@Autowired
+	BloodBankRepo bloodBankRepo;
 	
 	static Logger log = Logger.getLogger(BloodServiceImpl.class.getName());
 
@@ -32,48 +39,57 @@ public class BloodServiceImpl implements BloodService {
 			log.info("Found blood list");
 			return bloodlist;
 		}
+		
 	}
 
 	@Override
-	public Blood findBloodById(int id) {
+	public List<Blood> findBloodByType(BloodType type) {
 		// TODO Auto-generated method stub
-        Optional<Blood> bloodornull = bloodRepo.findById(id);
+        List<Blood> blood = bloodRepo.findBloodByType(type);
 		
-		if(bloodornull.isPresent()) {
-			log.info("Found blood with ID "+id);
-			return bloodornull.get();
+		if(!blood.isEmpty()) {
+			log.info("Found blood with type "+type);
+			return blood;
 		}
 		
 		else {
-			log.info("blood with "+id+" not found");
-			throw new BloodNotFoundException(id);
+			log.info("blood with "+type+" not found");
+			throw new BloodNotFoundException(type);
 		}
 	}
 	
 
 	@Override
-	public Blood insertBlood(Blood blood) {
+	public Blood updateBlood(int bbId, Blood blood) {
 		// TODO Auto-generated method stub
-		log.info("Added blood with ID "+blood.getBloodId());
-		return bloodRepo.save(blood);
-	}
-	
-
-	@Override
-	public void deleteBlood(int id) {
-		// TODO Auto-generated method stub
-		Optional<Blood> blood = bloodRepo.findById(id);
-		if(blood.isPresent()) {
-			bloodRepo.deleteById(id);
-			log.info("Blood with "+id+" deleted");
-		}
 		
-		else {
-			log.info("Blood with "+id+" not found");
-			throw new BloodNotFoundException(id);
+		if(!bloodBankRepo.existsById(bbId)) {
+			throw new BloodBankNotFoundException(bbId);
 		}
 
+		else {
+			 BloodBank bloodBank = bloodBankRepo.findById(bbId).get();
+		     Set<Blood> bloods = bloodBank.getBloodlist();
+			 
+		     int bloodId = 0;
+		     
+			 for (Blood b : bloods) {
+				if(b.getType()==blood.getType()) {
+					bloodId += b.getId();
+				}
+			}
+			 
+			 if(bloodId == 0) {
+					throw new BloodNotFoundException(bloodId);
+				}
+			 
+			 Blood bl = bloodRepo.findById(bloodId).get();
+			   
+			 double units = bl.getUnits();
+			 bl.setUnits(units+blood.getUnits());
+			  
+			 return bloodRepo.save(bl);
+		  }
 	}
-
 
 }

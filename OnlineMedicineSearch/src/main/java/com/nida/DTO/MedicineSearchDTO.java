@@ -2,9 +2,7 @@ package com.nida.DTO;
 
 
 public class MedicineSearchDTO {
-	
-	//List<Medicine> findMedicineByName(String name, int zip);
-	
+
 	private String medName;
 	private double medDosage;
     private String pharmaName;

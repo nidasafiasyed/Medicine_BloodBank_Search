@@ -1,5 +1,6 @@
 package com.nida.DTO.service.impl;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -11,7 +12,6 @@ import com.nida.DTO.MedicineSearchDTO;
 import com.nida.DTO.repo.MedicineDTORepo;
 import com.nida.DTO.service.MedicineDTOService;
 import com.nida.exception.MedicineNotFoundException;
-import com.nida.exception.PharmacyNotFoundException;
 
 @Service
 public class MedicineDTOSerImpl implements MedicineDTOService {
@@ -25,7 +25,12 @@ public class MedicineDTOSerImpl implements MedicineDTOService {
 	public List<MedicineSearchDTO> searchMedicine(String name, int zip) {
 		// TODO Auto-generated method stub
 		
-		List<Integer> zipNearby = Arrays.asList(zip-2, zip-1, zip, zip+1, zip+2); 
+		List<Integer> zipNearby = new ArrayList<Integer>(Arrays.asList(zip));
+		
+		for (int i = 1; i < 6; i++) {
+			zipNearby.add(zip-i);
+			zipNearby.add(zip+i);
+		}
 		
 		List<MedicineSearchDTO> medicines = medicineRepo.searchByName(name, zipNearby);
 		

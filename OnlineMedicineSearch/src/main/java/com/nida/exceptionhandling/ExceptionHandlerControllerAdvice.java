@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
+import com.nida.exception.BloodBankNotFoundException;
+import com.nida.exception.BloodNotFoundException;
 import com.nida.exception.MedicineNotFoundException;
 import com.nida.exception.PharmacyNotFoundException;
 
@@ -27,7 +29,29 @@ public class ExceptionHandlerControllerAdvice {
 	
 	@ExceptionHandler(PharmacyNotFoundException.class)
 	@ResponseStatus(value = HttpStatus.NOT_FOUND)
-	public @ResponseBody ResponseMessage handleException (final PharmacyNotFoundException exception,
+	public @ResponseBody ResponseMessage handlePharmacyNotFound(final PharmacyNotFoundException exception,
+			final HttpServletRequest request) {
+			
+			ResponseMessage error = new ResponseMessage();
+			error.setErrorMessage(exception.getMessage());
+			error.callerURL(request.getRequestURI());
+			return error;
+		}
+	
+	@ExceptionHandler(BloodNotFoundException.class)
+	@ResponseStatus(value = HttpStatus.NOT_FOUND)
+	public @ResponseBody ResponseMessage handleBloodNotFound (final BloodNotFoundException exception,
+			final HttpServletRequest request) {
+			
+			ResponseMessage error = new ResponseMessage();
+			error.setErrorMessage(exception.getMessage());
+			error.callerURL(request.getRequestURI());
+			return error;
+		}
+	
+	@ExceptionHandler(BloodBankNotFoundException.class)
+	@ResponseStatus(value = HttpStatus.NOT_FOUND)
+	public @ResponseBody ResponseMessage handleBloodBankNotFound (final BloodBankNotFoundException exception,
 			final HttpServletRequest request) {
 			
 			ResponseMessage error = new ResponseMessage();

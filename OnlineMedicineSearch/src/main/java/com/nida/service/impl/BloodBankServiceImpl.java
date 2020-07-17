@@ -1,7 +1,7 @@
 package com.nida.service.impl;
 
+import java.util.HashSet;
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 
 import org.apache.log4j.Logger;
@@ -9,9 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.nida.exception.BloodBankNotFoundException;
-import com.nida.exception.BloodNotFoundException;
 import com.nida.model.Blood;
 import com.nida.model.BloodBank;
+import com.nida.model.BloodType;
 import com.nida.repo.BloodBankRepo;
 import com.nida.repo.BloodRepo;
 import com.nida.service.BloodBankService;
@@ -47,10 +47,10 @@ public class BloodBankServiceImpl implements BloodBankService{
 	@Override
 	public BloodBank findBloodBankById(int id) {
 		// TODO Auto-generated method stub
-		Optional<BloodBank> bbornull = bloodBankRepo.findById(id);
-		if(bbornull.isPresent()) {
+		
+		if(bloodBankRepo.existsById(id)) {
 			log.info("Found blood bank with ID "+id);
-			return bbornull.get();
+			return bloodBankRepo.findById(id).get();
 		}
 		else {
 			log.info("Did not find blood bank with ID "+id);
@@ -61,6 +61,14 @@ public class BloodBankServiceImpl implements BloodBankService{
 	@Override
 	public BloodBank insertBloodBank(BloodBank bb) {
 		// TODO Auto-generated method stub
+		Set<Blood> bloods = new HashSet<>();
+		  for (BloodType type: BloodType.values()) {
+              Blood blood = new Blood(type);
+              bloods.add(blood);
+          }
+		
+		bb.setBloodlist(bloods);
+		
 		log.info("Added blood bank with ID "+bb.getBloodbankId());
 		return bloodBankRepo.save(bb);
 	}
@@ -68,17 +76,15 @@ public class BloodBankServiceImpl implements BloodBankService{
 	@Override
 	public BloodBank updateBloodBank(int id, BloodBank bb) {
 		// TODO Auto-generated method stub
-		Optional<BloodBank> bbornull = bloodBankRepo.findById(id);
 		
-		if(!bbornull.isPresent()) {
+		if(!bloodBankRepo.existsById(id)) {
 			log.info("Blood bank with "+id+" not found");
 			throw new BloodBankNotFoundException(id);
 		}
 		
 		else {
-			
 		
-		BloodBank bloodBank = bbornull.get();
+		BloodBank bloodBank = bloodBankRepo.findById(id).get();
 		
 		if(bb.getName()!=null) {
 			bloodBank.setName(bb.getName());
@@ -116,8 +122,8 @@ public class BloodBankServiceImpl implements BloodBankService{
 	@Override
 	public void deleteBloodBank(int id) {
 		// TODO Auto-generated method stub
-		Optional<BloodBank> bloodBank = bloodBankRepo.findById(id);
-		if(bloodBank.isPresent()) {
+
+		if(bloodBankRepo.existsById(id)) {
 			bloodBankRepo.deleteById(id);
 			log.info("Blood bank with "+id+" deleted");
 		}
@@ -126,48 +132,5 @@ public class BloodBankServiceImpl implements BloodBankService{
 			throw new BloodBankNotFoundException(id);
 		}
 	}
-
-	@Override
-	public BloodBank addBloodToBloodBank(int bbId, Blood blood) {
-		// TODO Auto-generated method stub
-		
-		Optional<BloodBank> bbornull = bloodBankRepo.findById(bbId);
-		Optional<Blood> bloodornull = bloodRepo.findById(blood.getBloodId());
-		
-		  if(!bbornull.isPresent()) {
-			 throw new BloodBankNotFoundException(bbId);
-		  }
-		
-		  if(!bloodornull.isPresent()) {
-				 throw new BloodNotFoundException(blood.getBloodId());
-		  }
-		  
-		  Blood addBlood = bloodornull.get();
-	      BloodBank bloodBank = bbornull.get();
-	      
-		  Set<Blood> bloodList = bloodBank.getBloodlist();
-
-		  double units = 0;
-		  
-		  for(Blood b: bloodList) {
-			  int id = b.getBloodId();
-			  if(id == addBlood.getBloodId())
-			  {
-				  units = b.getUnits();
-				  bloodList.remove(b);
-			  }
-		  }
-		  
-		  units += addBlood.getUnits();
-		  addBlood.setUnits(units);
-		  bloodRepo.save(addBlood);
-		  
-		  bloodList.add(addBlood);
-		  bloodBank.setBloodlist(bloodList);
-
-		  log.info("Added "+blood.getUnits()+" units of blood "+ blood.getType() +" to blood bank "+bbId);
-		  
-		  return bloodBankRepo.save(bloodBank);
-}
 
 }

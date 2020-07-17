@@ -10,6 +10,5 @@ public interface PharmacyService {
 	 Pharmacy insertPharmacy(Pharmacy pharmacy);
 	 Pharmacy updatePharmacy(int id, Pharmacy ph);
 	 void deletePharmacy(int id);
-	 Pharmacy insertMedicine(int pharmaId, int medId);
 
 }

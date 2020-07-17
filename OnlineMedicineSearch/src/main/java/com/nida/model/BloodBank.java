@@ -10,10 +10,10 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 @Table(name="bloodbanks")
@@ -22,7 +22,7 @@ public class BloodBank implements Serializable{
 	@Id
 	@Column(name = "bloodbank_id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int bloodbankId;
+	private int id;
 	
 	private String name;
 	private String street;
@@ -31,22 +31,23 @@ public class BloodBank implements Serializable{
 	private int zipcode;
 	private boolean is24hrs;
 	
-	
-	@ManyToMany(cascade = CascadeType.ALL)
-	@JoinTable(name="bloodlist_bloodbanks", joinColumns = {@JoinColumn(name="bloodbank_id")}, inverseJoinColumns =
-	{@JoinColumn(name="blood_id")})
-	private Set <Blood> bloodlist = new HashSet<>();
+	@JsonManagedReference
+	@OneToMany(
+		        mappedBy = "bloodBank",
+		        cascade = CascadeType.ALL
+		    )
+	private Set <Blood> bloodList = new HashSet<>();
 	
 	private double units;
 
 
 	public int getBloodbankId() {
-		return bloodbankId;
+		return id;
 	}
 
 
-	public void setBloodbankId(int bloodbankId) {
-		this.bloodbankId = bloodbankId;
+	public void setBloodbankId(int id) {
+		this.id = id;
 	}
 
 
@@ -111,12 +112,15 @@ public class BloodBank implements Serializable{
 
 
 	public Set<Blood> getBloodlist() {
-		return bloodlist;
+		return bloodList;
 	}
 
 
 	public void setBloodlist(Set<Blood> bloodlist) {
-		this.bloodlist = bloodlist;
+		this.bloodList = bloodlist;
+		for(Blood blood : bloodlist) {
+			blood.setBloodBank(this);
+		}
 	}
 
 
@@ -131,7 +135,7 @@ public class BloodBank implements Serializable{
 
 
 	public BloodBank() {
-		super();
+		bloodList = new HashSet<>();
 	}
 	
 }
