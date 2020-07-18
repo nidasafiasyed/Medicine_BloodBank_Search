@@ -108,19 +108,28 @@ public class AuthController {
 				switch (role) {
 
 				case "Blood Bank Member":
-					Role bloodBankRole = roleRepository.findByName(RoleType.BLOOD_BANK_MEMBER);
+					Role bloodBankRole = roleRepository.findByType(RoleType.ROLE_BLOOD_BANK_MEMBER);
 					if(bloodBankRole == null) {
 						throw new UserRoleNotFoundException(bloodBankRole);
 					}
 					roles.add(bloodBankRole);
-
 					break;
+					
 				case "Medical Member":
-					Role medicalRole = roleRepository.findByName(RoleType.MEDICAL_MEMBER);
+					Role medicalRole = roleRepository.findByType(RoleType.ROLE_MEDICAL_MEMBER);
 					if(medicalRole == null) {
 						throw new UserRoleNotFoundException(medicalRole);
 					}	
 					roles.add(medicalRole);
+					break;
+					
+				case "Admin":
+					Role adminRole = roleRepository.findByType(RoleType.ROLE_ADMIN);
+					if(adminRole == null) {
+						throw new UserRoleNotFoundException(adminRole);
+					}	
+					roles.add(adminRole);
+					break;
 				}
 			});
 		}

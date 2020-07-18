@@ -2,8 +2,8 @@ package com.nida.security.model;
 
 public enum RoleType {
 	
-	ADMIN,
-	BLOOD_BANK_MEMBER,
-	MEDICAL_MEMBER
+	ROLE_ADMIN,
+	ROLE_BLOOD_BANK_MEMBER,
+	ROLE_MEDICAL_MEMBER
 
 }

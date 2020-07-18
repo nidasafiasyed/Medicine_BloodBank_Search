@@ -17,8 +17,6 @@ public class Role {
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Integer id;
 
-    @Column
-    private String name;
 
     @Enumerated(EnumType.STRING)
     @Column
@@ -37,14 +35,6 @@ public class Role {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public RoleType getType() {
         return type;
     }
@@ -52,6 +42,10 @@ public class Role {
     public void setType(RoleType type) {
         this.type = type;
     }
+    
+    public Role() {
+
+	}
 }
 
 

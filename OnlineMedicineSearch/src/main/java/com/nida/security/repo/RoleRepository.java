@@ -9,6 +9,6 @@ import com.nida.security.model.RoleType;
 @Repository
 public interface RoleRepository extends JpaRepository<Role, Long>{
 	
-	Role findByName(RoleType type);
+	Role findByType(RoleType type);
 
 }
