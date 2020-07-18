@@ -22,16 +22,16 @@ public class User {
 	
 		@Id
 	    @GeneratedValue(strategy= GenerationType.AUTO)
-	    private int id;
-	    @Column
+	    private Long id;
+		@Column(unique=true)
 	    private String username;
-	    @Column
+		@Column(unique=true)
 	    @JsonIgnore
 	    private String password;
 	    @Column
 	    private String email;
 
-	    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	    @JoinTable(name = "user_roles", joinColumns = {
 	            @JoinColumn(name = "user_id") }, inverseJoinColumns = {
 	            @JoinColumn(name = "role_id") })
@@ -41,15 +41,21 @@ public class User {
 
 	    }
 
-	    public User(int id){
+		public User(String username, String email, String password) {
+			this.username = username;
+			this.email = email;
+			this.password = password;
+		}
+
+	    public User(Long id){
 	        this.id = id;
 	    }
 
-		public int getId() {
+		public Long getId() {
 			return id;
 		}
 
-		public void setId(int id) {
+		public void setId(Long id) {
 			this.id = id;
 		}
 

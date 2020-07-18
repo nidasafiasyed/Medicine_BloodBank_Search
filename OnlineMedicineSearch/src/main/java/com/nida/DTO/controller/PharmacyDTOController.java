@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,8 +14,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.nida.DTO.PharmacySearchDTO;
 import com.nida.DTO.service.PharmacyDTOService;
 
+@CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
-@RequestMapping("/pharmacy")
+@RequestMapping("/search")
 public class PharmacyDTOController {
 	
 	static Logger log = Logger.getLogger(PharmacyDTOController.class.getName());
