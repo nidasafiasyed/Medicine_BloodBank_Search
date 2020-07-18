@@ -8,6 +8,8 @@ import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -36,6 +38,10 @@ import com.nida.security.service.impl.UserDetailsImpl;
 @RestController
 @RequestMapping("/auth")
 public class AuthController {
+	
+	@Autowired
+	private JavaMailSender javaMailSender;
+
 	@Autowired
 	AuthenticationManager authenticationManager;
 
@@ -121,7 +127,17 @@ public class AuthController {
 
 		user.setRoles(roles);
 		userRepository.save(user);
+		
+		SimpleMailMessage msg = new SimpleMailMessage();
+	    msg.setTo(signUpRequest.getEmail());
+	    msg.setFrom("no-reply@online.com");
+	    msg.setSubject("Account Created");
+	    msg.setText("Hello, "+signUpRequest.getUsername()+" you have created an account with Online Medicals & Blood Bank.\n"
+	    		+ "Your roles are: "+strRoles);
+
+	        javaMailSender.send(msg);
 
 		return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
 	}
+	
 }
