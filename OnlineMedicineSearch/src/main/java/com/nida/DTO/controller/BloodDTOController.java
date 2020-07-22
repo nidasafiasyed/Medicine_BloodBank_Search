@@ -25,7 +25,7 @@ public class BloodDTOController {
 	@Autowired
 	BloodDTOService bloodService;
 	
-	@GetMapping("getBlood/{type}")
+	@GetMapping("getBloodType/{type}")
 	public List<BloodSearchDTO> getBloodByType(@PathVariable(value = "type") BloodType type, @RequestParam(value = "zip") int zip){
 		log.info("User requesting blood search by type");
 		return bloodService.searchBlood(type, zip);

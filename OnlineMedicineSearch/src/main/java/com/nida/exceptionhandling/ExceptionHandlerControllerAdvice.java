@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
+import com.nida.exception.UserRoleNotFoundException;
 import com.nida.exception.BloodBankNotFoundException;
 import com.nida.exception.BloodNotFoundException;
 import com.nida.exception.MedicineNotFoundException;
@@ -52,6 +53,17 @@ public class ExceptionHandlerControllerAdvice {
 	@ExceptionHandler(BloodBankNotFoundException.class)
 	@ResponseStatus(value = HttpStatus.NOT_FOUND)
 	public @ResponseBody ResponseMessage handleBloodBankNotFound (final BloodBankNotFoundException exception,
+			final HttpServletRequest request) {
+			
+			ResponseMessage error = new ResponseMessage();
+			error.setErrorMessage(exception.getMessage());
+			error.callerURL(request.getRequestURI());
+			return error;
+		}
+	
+	@ExceptionHandler(UserRoleNotFoundException.class)
+	@ResponseStatus(value = HttpStatus.NOT_FOUND)
+	public @ResponseBody ResponseMessage handleUserRoleNotFound (final UserRoleNotFoundException exception,
 			final HttpServletRequest request) {
 			
 			ResponseMessage error = new ResponseMessage();
